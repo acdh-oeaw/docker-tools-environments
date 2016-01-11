@@ -17,7 +17,6 @@ RUN tar -xzf drupal-7.41.tar.gz && \
   chown -R www-data:www-data html
 
 # expose
-VOLUME /etc
 VOLUME /var/log
 VOLUME /var/www/html/sites/default_template
 EXPOSE 80

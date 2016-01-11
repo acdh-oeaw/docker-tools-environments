@@ -12,7 +12,6 @@ RUN apt-get update && \
   apt-get clean
 
 # expose
-VOLUME /etc
 VOLUME /var/log
 EXPOSE 80
 

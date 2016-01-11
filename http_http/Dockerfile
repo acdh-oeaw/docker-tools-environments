@@ -5,7 +5,6 @@ FROM acdh/http
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # expose
-VOLUME /etc
 VOLUME /var/log
 EXPOSE 80
 
