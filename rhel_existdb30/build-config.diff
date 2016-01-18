@@ -1,0 +1,44 @@
+diff --git a/conf.xml.tmpl b/conf.xml.tmpl
+index 5b0f51f..916ee15 100644
+--- a/conf.xml.tmpl
++++ b/conf.xml.tmpl
+@@ -404,7 +404,7 @@
+         - suppress-whitespace-mixed-content:
+             preserve the white space inside a mixed content node
+     -->
+-    <indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="no"
++    <indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="yes"
+         suppress-whitespace="none">
+ 
+         <modules>
+@@ -830,6 +830,7 @@
+             <module uri="http://exist-db.org/xquery/mail"               class="org.exist.xquery.modules.mail.MailModule" />
+             <module uri="http://exist-db.org/xquery/scheduler"          class="org.exist.xquery.modules.scheduler.SchedulerModule" />
+             <module uri="http://exist-db.org/xquery/sql"                class="org.exist.xquery.modules.sql.SQLModule" />
++            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
+             <!--module uri="http://exist-db.org/xquery/versioning/svn"     class="org.exist.versioning.svn.xquery.SVNModule" /-->
+             <module uri="http://exist-db.org/xquery/xmldiff"            class="org.exist.xquery.modules.xmldiff.XmlDiffModule" />
+ 
+@@ -861,7 +862,6 @@
+             <module uri="http://exist-db.org/xquery/cssparser" class="org.exist.xquery.modules.cssparser.CSSParserModule"/>
+             <module uri="http://exist-db.org/xquery/backups"            class="org.exist.backup.xquery.BackupModule" />
+             <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
+-            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
+             <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
+             <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" /> 
+             <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
+diff --git a/extensions/build.properties b/extensions/build.properties
+index 0e85230..d9a8aed 100644
+--- a/extensions/build.properties
++++ b/extensions/build.properties
+@@ -97,8 +97,8 @@ include.module.context = false
+ include.module.counter = true
+ 
+ # Contextual Query Parser (CQL) module
+-include.module.cqlparser = false
+-include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.10/cql-java-1.10.jar
++include.module.cqlparser = true 
++include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.12/cql-java-1.12.jar
+ 
+ # Date/DateTime/Time utility functions module
+ include.module.datetime = true
