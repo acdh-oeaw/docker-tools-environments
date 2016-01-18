@@ -4,9 +4,10 @@ MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
 # openjdk-8-jre-headless/openjdk-8-jre/openjdk-8-jdk
-RUN apt-get update && \
-  apt-get install -y openjdk-8-jre-headless maven2 ant && \
-  apt-get install -y supervisor links vim && \
+RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
+    apt update && apt full-upgrade -y
+RUN apt-get install -y openjdk-8-jre-headless maven2 ant && \
+  apt-get install -y supervisor links vim nano && \
   apt-get clean
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
