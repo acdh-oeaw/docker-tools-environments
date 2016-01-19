@@ -3,11 +3,9 @@
     "Type" : "RHELexistdb30",
     "Name" : "existdb30testenv",
     "ServerName" : "existdb30.localdomain",
-    "Mounts" : [
-      { "Host" : "existdb30/log", "Guest" : "/var/log/exist", "Rights" : "rw" },
-      { "Host" : "existdb30/data", "Guest" : "/opt/exist/webapp/WEB-INF/data", "Rights" : "rw" },
-      { "Host" : "existdb30/autodeploy", "Guest" : "/opt/exist/autodeploy", "Rights" : "rw" }
-      ],
+    "DataDir" : "existdb30/data",
+    "LogDir" : "existdb30/log",
+    "AutodeployDir" : "existdb30/autodeploy",
     "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP"},
     "Require" : ["10.0.0.0/8", "127.0.0.0/8", "::1"]
   }
