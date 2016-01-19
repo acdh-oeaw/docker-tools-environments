@@ -12,12 +12,16 @@ RUN cd /opt/exist &&\
  rm -rf tools/jetty/logs &&\
  ln -s /var/log/exist tools/jetty/logs &&\
  rm -rf webapp/WEB-INF/logs &&\
- ln -s /var/log/exist webapp/WEB-INF/logs
-RUN mv /opt/exist/autodeploy /opt/exist/autodeploy.init
+ ln -s /var/log/exist webapp/WEB-INF/logs &&\
+ mkdir /opt/exist/tools/jetty/tmp &&\
+ chmod g+w /opt/exist/tools/jetty/tmp &&\
+ chgrp users /opt/exist/tools/jetty/tmp &&\
+ mv /opt/exist/autodeploy /opt/exist/autodeploy.init
 COPY wrapper.sh /opt/exist/tools/wrapper/bin/wrapper.sh
 # git error: wrapper is not executable
 RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper-linux-x86-64
 # RUN chown user:users /var/log/exist /data /opt/exist/tools/jetty/tmp
 CMD ["/opt/exist/tools/wrapper/bin/wrapper.sh", "/opt/exist/tools/wrapper/conf/wrapper.conf", "wrapper.syslog.ident=exist", "wrapper.name=exist", "wrapper.displayname=eXist db 3.0 RC1", "wrapper.daemonize=FALSE"]
-VOLUME /var/log/exist /opt/exist/webapp/WEB-INF/data /opt/exist/autodeploy
-EXPOSE 8080 8443
+# We use runtime configuration for that for now.
+# VOLUME /var/log/exist /opt/exist/webapp/WEB-INF/data /opt/exist/autodeploy
+# EXPOSE 8080 8443
