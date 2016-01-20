@@ -21,6 +21,7 @@ RUN cd /opt/exist &&\
 COPY wrapper.sh /opt/exist/tools/wrapper/bin/wrapper.sh
 # git error: wrapper is not executable
 RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper-linux-x86-64
+RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper.sh
 # RUN chown user:users /var/log/exist /data /opt/exist/tools/jetty/tmp
 CMD ["/opt/exist/tools/wrapper/bin/wrapper.sh", "/opt/exist/tools/wrapper/conf/wrapper.conf", "wrapper.syslog.ident=exist", "wrapper.name=exist", "wrapper.displayname=eXist db 3.0 RC1", "wrapper.daemonize=FALSE"]
 # We use runtime configuration for that for now.
