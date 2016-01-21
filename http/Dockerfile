@@ -1,5 +1,4 @@
-# we are using latest stable (vivid) instead of latest (which is latest LTS: 14.04)
-FROM ubuntu:vivid
+FROM ubuntu:wily
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # set up utf-8 locale (defaults in offical centos/ubuntu images are POSIX)
@@ -13,7 +12,7 @@ ENV LANGUAGE en_US:en
 RUN apt-get update && \
   apt-get install -y supervisor apache2 links vim && \
   a2dismod mpm_event && \
-  apt-get install -y apache2-mpm-itk && \
+  apt-get install -y libapache2-mpm-itk && \
   a2enmod rewrite && \
   apt-get clean
 
@@ -26,5 +25,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
 RUN chmod -R +r /var/log/apache2 && \
   chmod +x /var/log/apache2
-# do not expose volumes here as it breaks derived images!
-
+EXPOSE 80
