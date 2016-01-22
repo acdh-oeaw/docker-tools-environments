@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# we are using latest stable (vivid) instead of latest (which is latest LTS: 14.04)
-=======
->>>>>>> remotes/origin/master
 FROM ubuntu:wily
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
