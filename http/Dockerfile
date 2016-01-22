@@ -1,5 +1,5 @@
 # we are using latest stable (vivid) instead of latest (which is latest LTS: 14.04)
-FROM ubuntu:vivid
+FROM ubuntu:wily
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # set up utf-8 locale (defaults in offical centos/ubuntu images are POSIX)
