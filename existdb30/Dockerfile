@@ -6,6 +6,7 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
 RUN apt install -y openjdk-8-jdk git patch
 RUN cd /opt && git clone --verbose --progress https://github.com/eXist-db/exist.git && cd exist && git checkout eXist-3.0.RC1
 COPY build-config.diff /opt/exist/build-config.diff
+RUN update-ca-certificates -f
 RUN cd /opt/exist && patch -p1 < build-config.diff && ./build.sh && mkdir -p /var/log/exist && mkdir /data
 RUN cd /opt/exist &&\
  rm -rf tools/wrapper/logs &&\
