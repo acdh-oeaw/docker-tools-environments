@@ -1,5 +1,4 @@
-# we are using latest stable (vivid) instead of latest (which is latest LTS: 14.04)
-FROM ubuntu:vivid
+FROM ubuntu:wily
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
@@ -19,6 +18,5 @@ ENV LANGUAGE en_US:en
 
 # expose
 CMD ["/usr/bin/supervisord"]
-VOLUME /var/log
 EXPOSE 8000
 EXPOSE 8080
