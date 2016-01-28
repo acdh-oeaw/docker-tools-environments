@@ -32,7 +32,7 @@ COPY lighttpd.conf /etc/lighttpd/
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init
 COPY run_lighttpd.sh /
-VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data
+VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito/options
 EXPOSE 8080
 # not supported right now
 # USER www-data
