@@ -2,8 +2,8 @@ FROM acdh/java8
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
-    apt update && apt full-upgrade -y
-RUN apt install -y openjdk-8-jdk git patch
+    apt update && apt full-upgrade -y && apt-get clean
+RUN apt install -y openjdk-8-jdk git patch && apt-get clean
 RUN cd /opt && git clone --verbose --progress https://github.com/eXist-db/exist.git && cd exist && git checkout eXist-3.0.RC1
 COPY build-config.diff /opt/exist/build-config.diff
 RUN update-ca-certificates -f
