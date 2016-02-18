@@ -12,10 +12,7 @@ RUN tar -xzf drupal-7.41.tar.gz && \
   rm -f drupal-7.41.tar.gz && \
   rm -fR html && \
   mv drupal-7.41 html && \
-  mv html/sites/default html/sites/default_template && \
-  mkdir html/sites/default && \
   chown -R www-data:www-data html
 
 # expose
-VOLUME /var/www/html/sites/default_template
 EXPOSE 80

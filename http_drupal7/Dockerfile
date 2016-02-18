@@ -12,10 +12,10 @@ RUN tar -xzf drupal-7.42.tar.gz && \
   rm -f drupal-7.42.tar.gz && \
   rm -fR html && \
   mv drupal-7.42 html && \
-  mv html/sites/default html/sites/default_template && \
-  mkdir html/sites/default && \
-  chown -R www-data:www-data html
+  chown -R www-data:www-data html && \
+  wget http://files.drush.org/drush.phar && \
+  chmod +x drush.phar && \
+  mv drush.phar /usr/local/bin/drush
 
 # expose
-VOLUME /var/www/html/sites/default_template
 EXPOSE 80
