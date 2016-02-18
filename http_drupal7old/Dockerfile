@@ -7,11 +7,11 @@ RUN apt-get update && \
   apt-get clean
 
 WORKDIR /var/www
-RUN wget http://ftp.drupal.org/files/projects/drupal-7.42.tar.gz
-RUN tar -xzf drupal-7.42.tar.gz && \
-  rm -f drupal-7.42.tar.gz && \
+RUN wget http://ftp.drupal.org/files/projects/drupal-7.41.tar.gz
+RUN tar -xzf drupal-7.41.tar.gz && \
+  rm -f drupal-7.41.tar.gz && \
   rm -fR html && \
-  mv drupal-7.42 html && \
+  mv drupal-7.41 html && \
   mv html/sites/default html/sites/default_template && \
   mkdir html/sites/default && \
   chown -R www-data:www-data html
