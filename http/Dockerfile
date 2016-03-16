@@ -9,8 +9,9 @@ ENV LANGUAGE en_US:en
 # install software
 # enableing the ITK module is a little tricky (requires MPM event module to be
 #   disabled first), so it takes 3 lines of code
-RUN apt-get update && \
-  apt-get install -y supervisor apache2 links vim && \
+RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
+    apt update && apt full-upgrade -y
+RUN  apt-get install -y supervisor apache2 links vim && \
   a2dismod mpm_event && \
   apt-get install -y libapache2-mpm-itk && \
   a2enmod rewrite && \
