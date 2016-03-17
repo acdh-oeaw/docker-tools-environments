@@ -24,5 +24,6 @@ RUN cd /var/www/html/corpus_shell &&\
     php -r "unlink('composer-setup.php');"
 RUN cd /var/www/html/corpus_shell &&\
     php composer.phar install
-
+# expose and freeze for containers derived from this the corpus_shell setup
+VOLUME /var/www/html
 
