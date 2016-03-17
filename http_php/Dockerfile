@@ -10,6 +10,7 @@ RUN apt-get update && \
 
 RUN mkdir -p /var/www/exec /var/www/config &&\
     chown www-data:www-data /var/www/exec /var/www/config
-VOLUME /var/log/apache2 /var/www/html
+# this should be added asap: /var/log/apache2
+VOLUME /var/www/html
 # Optional VOLUME /var/www/exec /var/www/config
 
