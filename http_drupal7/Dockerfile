@@ -10,4 +10,4 @@ RUN tar -xzf drupal-7.43.tar.gz && \
   mv drupal-7.43 html && \
   chown -R www-data:www-data html
 
-VOLUME /var/www/html
+VOLUME /var/www/html/sites/all /var/www/html/sites/default
