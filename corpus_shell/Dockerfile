@@ -2,7 +2,7 @@
 # Apache is running using the ITK module so
 # --cap-add=SYS_NICE --cap-add=DAC_READ_SEARCH docker privileges are required
 FROM acdh/base_http_php
-MAINTAINER Omar Siam <Omar.Siamk@oeaw.ac.at>
+MAINTAINER Omar Siam <Omar.Siam@oeaw.ac.at>
 
 RUN apt-get update && \
   apt-get install -y git && \
