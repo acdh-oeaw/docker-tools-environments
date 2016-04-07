@@ -9,5 +9,8 @@ RUN tar -xzf drupal.tar.gz && \
   rm -fR html && \
   mv drupal-8.0.5 html && \
   chown -R www-data:www-data html
+RUN apt update && \
+  apt-get install -y drush && \
+  apt-get clean
 
 VOLUME /var/www/html/sites/all /var/www/html/sites/default
