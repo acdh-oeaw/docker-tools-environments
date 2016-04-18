@@ -1,15 +1,18 @@
-FROM acdh/existdb30
+FROM acdh/java8
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
     apt update && apt full-upgrade -y && apt-get clean
+RUN apt install -y openjdk-8-jdk git patch && apt-get clean
+RUN update-ca-certificates -f
+RUN cd /opt && git clone --verbose --progress https://github.com/eXist-db/exist.git
+RUN cd /opt/exist && ant clean && rm -f extensions/betterform/main/lib/* && git reset --hard &&\
+    git checkout eXist-2.2 && rm -rf tools/jetty/logs
 RUN apt install -y openjdk-7-jdk && apt-get clean && update-ca-certificates -f &&\
     update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java &&\
     update-alternatives --set javac /usr/lib/jvm/java-7-openjdk-amd64/bin/javac
-RUN cd /opt/exist && ant clean && rm -f extensions/betterform/main/lib/* && git reset --hard &&\
-    git checkout eXist-2.2 && rm -rf tools/jetty/logs
-COPY build-config.diff /opt/exist/build-config.diff
-RUN cd /opt/exist && patch -p1 < build-config.diff && ./build.sh && mkdir -p /var/log/exist && mkdir -p /data
+COPY build-config.diff /opt/exist-build-config.diff
+RUN cd /opt/exist && patch -p1 < ../exist-build-config.diff && ./build.sh && mkdir -p /var/log/exist && mkdir -p /data
 RUN cd /opt/exist &&\
  rm -rf tools/wrapper/logs &&\
  ln -s /var/log/exist tools/wrapper/logs &&\
