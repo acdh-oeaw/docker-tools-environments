@@ -2,15 +2,6 @@ diff --git a/conf.xml.tmpl b/conf.xml.tmpl
 index 5b0f51f..916ee15 100644
 --- a/conf.xml.tmpl
 +++ b/conf.xml.tmpl
-@@ -404,7 +404,7 @@
-         - suppress-whitespace-mixed-content:
-             preserve the white space inside a mixed content node
-     -->
--    <indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="no"
-+    <indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="yes"
-         suppress-whitespace="none">
- 
-         <modules>
 @@ -830,6 +830,7 @@
              <module uri="http://exist-db.org/xquery/mail"               class="org.exist.xquery.modules.mail.MailModule" />
              <module uri="http://exist-db.org/xquery/scheduler"          class="org.exist.xquery.modules.scheduler.SchedulerModule" />
