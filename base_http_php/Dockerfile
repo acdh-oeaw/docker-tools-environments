@@ -9,7 +9,7 @@ RUN apt update && apt full-upgrade -y && \
                      php7.0-mysql php7.0-gd php7.0-recode php7.0-readline php7.0-json \
                      php7.0-curl php7.0-gmp php7.0-ldap php7.0-odbc php7.0-sqlite \
                      php7.0-xmlrpc php7.0-intl php7.0-xsl php-apcu \
-                     mysql-client && \
+                     mysql-client w3c-sgml-lib && \
   apt-get clean
 
 RUN mkdir -p /var/www/exec /var/www/config &&\
