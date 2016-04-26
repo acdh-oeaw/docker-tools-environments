@@ -1,2 +1,0 @@
-Main-Class: com.stackoverflow.q3732109.MinimalHTTP
-

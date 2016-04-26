@@ -4,15 +4,17 @@
 FROM acdh/http
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
-RUN apt-get update && \
-  apt-get install -y php5-cli libapache2-mod-php5 php-pear php5-pgsql php5-mysql php5-gd php5-recode php5-readline \
-                     php5-json php5-curl php5-gmp php5-ldap php5-odbc php5-sqlite php5-xmlrpc php5-intl \
-                     php5-xsl php5-apcu w3c-dtd-xhtml mysql-client && \
+RUN apt update && apt full-upgrade -y && \
+  apt-get install -y php7.0-cli libapache2-mod-php7.0 php-pear php7.0-pgsql \
+                     php7.0-mysql php7.0-gd php7.0-recode php7.0-readline php7.0-json \
+                     php7.0-curl php7.0-gmp php7.0-ldap php7.0-odbc php7.0-sqlite \
+                     php7.0-xmlrpc php7.0-intl php7.0-xsl php-apcu \
+                     mysql-client && \
   apt-get clean
 
 RUN mkdir -p /var/www/exec /var/www/config &&\
     chown www-data:www-data /var/www/exec /var/www/config
 
 # Do not use VOLUME or EXPOSE in base_ containers. They are meant to be derived from.
-# There is no posibility to alter these further down.
+# There is no posibility to alter these in derived images.
 

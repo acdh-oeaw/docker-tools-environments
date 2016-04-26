@@ -1,9 +1,4 @@
-# Image for serving HTTP/PHP and HTTP/WSGI environments:
-# - PHP run as suPHP
-# - WSGI module compiled against Python3
-#
-# Because of these two requirements the basis is
-# an Ubuntu Server destribution (instead of CentOs)
+# Image for serving HTTP/WSGI with Python3
 FROM acdh/http
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
