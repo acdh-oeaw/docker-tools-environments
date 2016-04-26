@@ -8,9 +8,10 @@ RUN update-ca-certificates -f
 RUN cd /opt && git clone --verbose --progress https://github.com/eXist-db/exist.git
 RUN cd /opt/exist && ant clean && rm -f extensions/betterform/main/lib/* && git reset --hard &&\
     git checkout eXist-2.2 && rm -rf tools/jetty/logs
-RUN apt install -y openjdk-7-jdk && apt-get clean && update-ca-certificates -f &&\
-    update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java &&\
-    update-alternatives --set javac /usr/lib/jvm/java-7-openjdk-amd64/bin/javac
+RUN update-ca-certificates -f
+#RUN apt install -y openjdk-7-jdk && apt-get clean && update-ca-certificates -f &&\
+#    update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java &&\
+#    update-alternatives --set javac /usr/lib/jvm/java-7-openjdk-amd64/bin/javac
 COPY build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && patch -p1 < ../exist-build-config.diff && ./build.sh && mkdir -p /var/log/exist && mkdir -p /data
 RUN cd /opt/exist &&\
