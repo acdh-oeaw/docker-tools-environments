@@ -7,7 +7,7 @@ RUN php -r "readfile('https://ftp.drupal.org/files/projects/drupal-@VERSION@.tar
 RUN tar -xzf drupal.tar.gz && \
   rm -f drupal.tar.gz && \
   rm -fR html && \
-  mv drupal-%VERSION% html && \
+  mv drupal-@VERSION@ html && \
   chown -R www-data:www-data html
 RUN apt update && \
   apt-get install -y drush && \
