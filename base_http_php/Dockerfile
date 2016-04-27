@@ -8,7 +8,7 @@ RUN apt update && apt full-upgrade -y && \
   apt-get install -y php7.0-cli libapache2-mod-php7.0 php-pear php7.0-pgsql \
                      php7.0-mysql php7.0-gd php7.0-recode php7.0-readline php7.0-json \
                      php7.0-curl php7.0-gmp php7.0-ldap php7.0-odbc php7.0-sqlite \
-                     php7.0-xmlrpc php7.0-intl php7.0-xsl php-apcu \
+                     php7.0-xmlrpc php7.0-intl php7.0-xsl php7.0-mbstring php-apcu \
                      mysql-client w3c-sgml-lib && \
   apt-get clean
 
