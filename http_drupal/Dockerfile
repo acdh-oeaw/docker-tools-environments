@@ -1,3 +1,4 @@
+#@TEMPLATE
 # This is a Dockerfile template
 # It can not be build using "docker build" without parameterization which is done by docker-tools
 # For this reason it makes no sense to derive anything from this image
