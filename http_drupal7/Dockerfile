@@ -17,3 +17,4 @@ RUN apt update && \
   apt-get install -y drush && \
   apt-get clean
 
+VOLUME /var/www/html/sites/default /var/www/html/sites/all
