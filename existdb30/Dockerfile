@@ -17,7 +17,7 @@ RUN cd /opt/exist &&\
  ln -s /var/log/exist tools/jetty/logs &&\
  rm -rf webapp/WEB-INF/logs &&\
  ln -s /var/log/exist webapp/WEB-INF/logs &&\
- mkdir /opt/exist/tools/jetty/tmp &&\
+ mkdir -p /opt/exist/tools/jetty/tmp &&\
  chmod g+w /opt/exist/tools/jetty/tmp &&\
  chgrp users /opt/exist/tools/jetty/tmp &&\
  mv /opt/exist/autodeploy /opt/exist/autodeploy.init
