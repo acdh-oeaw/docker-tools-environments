@@ -18,3 +18,6 @@ RUN apt update && \
   apt-get clean
 
 VOLUME /var/www/html/sites/all /var/www/html/sites/default
+
+CMD ["/bin/bash", "-c", "source /etc/apache2/envvars && exec /usr/sbin/apache2 -D FOREGROUND"]
+EXPOSE 80
