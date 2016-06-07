@@ -1,5 +1,5 @@
-# Image for serving dictionary sites and dictionary fcs endpoints
-FROM acdh/base_http_php5
+# Image for the server side RESTful API for VLE
+FROM acdh/base_http_php
 MAINTAINER Omar Siam <Omar.Siam@oeaw.ac.at>
 
 RUN apt-get update && \
@@ -10,7 +10,7 @@ RUN rm -fv /var/www/html/*&&\
     git clone https://github.com/acdh-oeaw/vleserver.git
 RUN cd /var/www/exec/vleserver &&\
     php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&\
-    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '92102166af5abdb03f49ce52a40591073a7b859a86e8ff13338cf7db58a19f7844fbc0bb79b2773bf30791e935dbd938') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
+    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '070854512ef404f16bac87071a6db9fd9721da1684cd4589b1196c3faf71b9a2682e2311b36a5079825e155ac7ce150d') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
     php composer-setup.php &&\
     php -r "unlink('composer-setup.php');"
 RUN cd /var/www/exec/vleserver &&\
