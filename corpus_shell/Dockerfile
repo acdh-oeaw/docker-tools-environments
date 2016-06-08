@@ -8,7 +8,6 @@ RUN apt-get update && \
 RUN rm -fv /var/www/html/* && cd /var/www/html &&\
     git clone https://github.com/acdh-oeaw/corpus_shell.git &&\
     cd corpus_shell &&\
-    git checkout persengldict &&\
     git submodule update --init xsl &&\
     git submodule update --init modules/utils-php &&\
     cd modules/utils-php &&\
