@@ -2,22 +2,14 @@ diff --git a/conf.xml.tmpl b/conf.xml.tmpl
 index 9b54f0f..d9f689a 100644
 --- a/conf.xml.tmpl
 +++ b/conf.xml.tmpl
-@@ -777,6 +777,7 @@
-             <module uri="http://www.w3.org/2005/xpath-functions/math" class="org.exist.xquery.functions.math.MathModule" />
-             <module uri="http://exist-db.org/xquery/process" class="org.exist.xquery.modules.process.ProcessModule"/>
+@@ -890,6 +890,7 @@
+             -->
 
+             <!-- Modules not enabled in the distribution by default -->
 +            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-
              <!--
-                 EXPath Modules
-@@ -898,7 +899,6 @@
              <module uri="http://exist-db.org/xquery/cssparser" class="org.exist.xquery.modules.cssparser.CSSParserModule"/>
              <module uri="http://exist-db.org/xquery/backups"            class="org.exist.backup.xquery.BackupModule" />
-             <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
--            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-             <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
-             <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" />
-             <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
 diff --git a/extensions/build.properties b/extensions/build.properties
 index 4bc1151..2e8ecd9 100644
 --- a/extensions/build.properties
