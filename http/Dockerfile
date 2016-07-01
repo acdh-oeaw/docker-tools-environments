@@ -6,9 +6,10 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 
-# install software
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
-  apt update && apt full-upgrade -y && \
+  apt-get update && apt-get dist-upgrade -y && apt-get clean
+# install software
+RUN apt-get update && \
   apt-get install -y supervisor apache2 libapache2-mpm-itk links vim && \
   a2enmod rewrite && \
   a2enmod headers && \

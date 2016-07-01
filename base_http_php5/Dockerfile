@@ -10,11 +10,14 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 
-# install software
+
+RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
+  apt-get update && apt-get dist-upgrade -y && apt-get clean
+# install softwares
 # libapache2-mpm-itk requires mpm_event Apache module to be disabled first
 # and it is not automatically done during the install so has to be done by hand
-RUN apt update && apt full-upgrade -y
-RUN apt-get install -y supervisor apache2 links vim && \
+RUN apt-get update && \
+  apt-get install -y supervisor apache2 links vim && \
   a2dismod mpm_event && \
   apt-get install -y libapache2-mpm-itk \
                      php5-cli libapache2-mod-php5 php-pear php5-pgsql \
