@@ -11,6 +11,7 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
   apt update && apt full-upgrade -y && \
   apt-get install -y supervisor apache2 libapache2-mpm-itk links vim && \
   a2enmod rewrite && \
+  a2enmod headers && \
   apt-get clean
 
 # configure

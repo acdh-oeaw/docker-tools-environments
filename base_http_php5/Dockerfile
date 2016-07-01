@@ -24,5 +24,6 @@ RUN apt-get install -y supervisor apache2 links vim && \
                      mysql-client w3c-dtd-xhtml && \
   apt-get clean && \
   a2enmod rewrite && \
+  a2enmod headers && \
   mkdir -p /var/www/exec /var/www/config &&\
   chown www-data:www-data /var/www/exec /var/www/config
