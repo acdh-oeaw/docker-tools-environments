@@ -10,7 +10,7 @@ RUN rm -fv /var/www/html/*&&\
     git clone https://github.com/acdh-oeaw/vleserver.git
 RUN cd /var/www/exec/vleserver &&\
     php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&\
-    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '070854512ef404f16bac87071a6db9fd9721da1684cd4589b1196c3faf71b9a2682e2311b36a5079825e155ac7ce150d') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
+    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
     php composer-setup.php &&\
     php -r "unlink('composer-setup.php');"
 RUN cd /var/www/exec/vleserver &&\
