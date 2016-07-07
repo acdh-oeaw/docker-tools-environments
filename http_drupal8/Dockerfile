@@ -16,5 +16,8 @@ RUN tar -xzf drupal.tar.gz && \
 RUN php -r "readfile('http://files.drush.org/drush.phar');" > drush && \
   chmod +x drush && \
   mv drush /usr/local/bin
+RUN apt-get update && \
+  apt-get install -y curl && \
+  apt-get clean
 
 VOLUME /var/www/html/sites /var/www/html/modules /var/www/html/themes /var/www/html/profiles /var/www/html/libraries
