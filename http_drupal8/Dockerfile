@@ -21,7 +21,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
   php composer-setup.php --install-dir /usr/bin --filename composer && \
   rm composer-setup.php
 RUN apt-get update && \
-  apt-get install -y curl && \
+  apt-get install -y curl git && \
   apt-get clean
 
 VOLUME /var/www/html/sites /var/www/html/modules /var/www/html/themes /var/www/html/profiles /var/www/html/libraries
