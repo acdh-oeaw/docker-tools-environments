@@ -14,6 +14,7 @@ RUN apt-get update && \
   a2enmod rewrite && \
   a2enmod headers && \
   a2enmod proxy && \
+  a2enmod proxy_http && \
   apt-get clean
 
 # configure
