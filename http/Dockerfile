@@ -13,6 +13,7 @@ RUN apt-get update && \
   apt-get install -y supervisor apache2 libapache2-mpm-itk links vim && \
   a2enmod rewrite && \
   a2enmod headers && \
+  a2enmod proxy && \
   apt-get clean
 
 # configure
