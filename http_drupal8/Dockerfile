@@ -23,5 +23,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN apt-get update && \
   apt-get install -y curl git && \
   apt-get clean
+COPY updateLibs.sh /usr/local/sbin/updateLibs.sh
 
 VOLUME /var/www/html/sites /var/www/html/modules /var/www/html/themes /var/www/html/profiles /var/www/html/libraries
