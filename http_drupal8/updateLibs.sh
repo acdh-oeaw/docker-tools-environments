@@ -6,5 +6,4 @@ done
 REQ="\"merge-plugin\": {\"require\":[${REQ:2}],"
 sed -i -e "s|^.*\"merge-plugin\".*$|$REQ|" /var/www/html/composer.json
 cd /var/www/html
-composer install
 composer update
