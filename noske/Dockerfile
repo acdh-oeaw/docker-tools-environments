@@ -11,12 +11,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
     python-cheetah python-simplejson \
     lighttpd && \
     apt-get clean
-RUN wget http://corpora.fi.muni.cz/noske/deb/1204/bonito-open/bonito-open-www_3.80.5-1_all.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1204/bonito-open/bonito-open_3.80.5-1_all.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1204/finlib/finlib_2.33.1-1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1204/manatee-open/manatee-open-python_2.130.6-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1204/manatee-open/manatee-open_2.130.6-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1204/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+RUN wget http://corpora.fi.muni.cz/noske/deb/archive/1204/bonito-open/bonito-open-www_3.80.5-1_all.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/bonito-open/bonito-open_3.80.5-1_all.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/finlib/finlib_2.33.1-1_amd64.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/manatee-open-python_2.130.6-1ubuntu1_amd64.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/manatee-open_2.130.6-1ubuntu1_amd64.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
