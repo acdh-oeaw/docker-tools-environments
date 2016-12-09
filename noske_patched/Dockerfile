@@ -14,11 +14,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
 RUN wget http://corpora.fi.muni.cz/noske/deb/archive/1204/bonito-open/archive/bonito-open_3.48.9-1_all.deb && \
     wget http://corpora.fi.muni.cz/noske/deb/archive/1204/bonito-open/archive/bonito-open-www_3.48.9-1_all.deb && \
     wget http://corpora.fi.muni.cz/noske/deb/archive/1204/finlib/archive/finlib_2.28.2-1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/archive/manatee-open-python_2.107.1-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/archive/manatee-open_2.107.1-1ubuntu1_amd64.deb && \
+#    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/archive/manatee-open-python_2.107.1-1ubuntu1_amd64.deb && \
+#    wget http://corpora.fi.muni.cz/noske/deb/archive/1204/manatee-open/archive/manatee-open_2.107.1-1ubuntu1_amd64.deb && \
     wget http://corpora.fi.muni.cz/noske/deb/archive/1204/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
+COPY manatee-open*2.107.1*_amd64.deb /
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
     rm *.deb
@@ -36,8 +37,4 @@ VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/li
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 EXPOSE 8080
 CMD ["/bin/sh", "/run_lighttpd.sh"]
-
-COPY manatee-open*2.107.1*_amd64.deb /
-
-RUN dpkg --install manatee-open*2.107.1*_amd64.deb && rm *.deb
 
