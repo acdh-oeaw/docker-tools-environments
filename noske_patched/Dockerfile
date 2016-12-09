@@ -1,4 +1,4 @@
-FROM acdh/noske:2.107.1
+FROM ubuntu:12.04
 MAINTAINER Omar.Siam@oeaw.ac.at
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
