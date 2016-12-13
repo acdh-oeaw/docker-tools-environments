@@ -1,0 +1,53 @@
+diff -ur manatee-open-2.107.1.orig/concord/concget.cc manatee-open-2.107.1/concord/concget.cc
+--- manatee-open-2.107.1.orig/concord/concget.cc	2014-06-08 15:42:16.000000000 +0200
++++ manatee-open-2.107.1/concord/concget.cc	2015-07-06 11:53:38.306406613 +0200
+@@ -61,6 +61,10 @@
+             if (display_text->at(i) == '%' && display_text->at(i + 1) == '(') {
+                 attr_start = i;
+             }
++            if (display_text->at(i) == '>' && display_text->at(i + 1) == '(') {
++                display_empty = true;
++                attr_start = i;
++            }
+             if (display_text->at(i) == ')' && attr_start != -1) {
+                 attrs->push_back(make_pair(make_pair(attr_start, i), str->get_attr(display_text->substr(attr_start + 2, i - attr_start - 2).c_str())));
+                 attr_start = -1;
+@@ -96,7 +100,11 @@
+                 }
+                 if (!display_begin.empty()) {
+                     if (!display_begin_attrs.empty()) {
+-                        events.push_back (pos_event (b, e == b ? priority +1001 : priority +1 +nest, substitute_attr_values(display_begin, &display_begin_attrs, &num)));
++                        if (display_empty) {
++                          events.push_back (pos_event (ev_TEXT, b, priority +1, substitute_attr_values(display_begin, &display_begin_attrs, &num)));
++                        } else {
++                          events.push_back (pos_event (b, e == b ? priority +1001 : priority +1 +nest, substitute_attr_values(display_begin, &display_begin_attrs, &num)));
++                        }
+                     } else {
+                         events.push_back (pos_event (b, e == b ? priority +1001 : priority +1 +nest, display_begin));
+                     }
+Nur in manatee-open-2.107.1: _configs.sed.
+diff -ur manatee-open-2.107.1.orig/debian/changelog manatee-open-2.107.1/debian/changelog
+--- manatee-open-2.107.1.orig/debian/changelog	2014-06-17 16:46:46.000000000 +0200
++++ manatee-open-2.107.1/debian/changelog	2015-07-06 11:27:50.658352831 +0200
+@@ -1,3 +1,9 @@
++manatee-open (2.107.1-1ubuntu1.1) precise; urgency=low
++
++  * glue tags
++
++ -- Omar Siam <simar@gmx.net>  Mon, 08 Jul 2015 09:00:00 +0200
++
+ manatee-open (2.107.1-1ubuntu1) precise; urgency=low
+ 
+   * Update to 2.107.1
+diff -ur manatee-open-2.107.1.orig/debian/rules manatee-open-2.107.1/debian/rules
+--- manatee-open-2.107.1.orig/debian/rules	2014-06-17 16:44:19.000000000 +0200
++++ manatee-open-2.107.1/debian/rules	2015-07-06 11:30:25.442358205 +0200
+@@ -12,7 +12,7 @@
+ 	mv $(DEB_DESTDIR)/usr/lib/python2.6/site-packages $(DEB_DESTDIR)/usr/lib/python2.6/dist-packages || :
+ 
+ build/manatee-open-susanne::
+-	api/compilecorp --recompile-corpus ./susanne/config susanne/source
++	api/compilecorp --recompile-corpus --no-sketches ./susanne/config susanne/source
+ 
+ install/manatee-open-susanne::
+ 	mkdir -p $(DEB_DESTDIR)/var/lib/manatee/data
