@@ -12,7 +12,7 @@ RUN apt update && apt full-upgrade -y && \
                      php7.0-zip mysql-client w3c-sgml-lib composer && \
   apt-get clean
 
-RUN mkdir -p /var/www/exec /var/www/config &&\
+RUN mkdir -p /var/www/exec  /var/www/config &&\
     chown www-data:www-data /var/www/exec /var/www/config &&\
     sed -i -e 's/upload_max_filesize.*/upload_max_filesize = 64M/' -e 's/post_max_size.*/post_max_size = 64M/' /etc/php/7.0/apache2/php.ini
 
