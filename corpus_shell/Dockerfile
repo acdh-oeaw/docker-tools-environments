@@ -17,7 +17,8 @@ RUN rm -fv /var/www/html/* && cd /var/www/html &&\
     git submodule update --init modules/fcs-aggregator
 RUN cd /var/www/html/corpus_shell &&\
     php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&\
-    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'aa96f26c2b67226a324c27919f1eb05f21c248b987e6195cad9690d5c1ff713d53020a02ac8c217dbf90a7eacc9d141d') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
+    EXPECTED_SIGNATURE=$(php -r "readfile('https://composer.github.io/installer.sig');") &&\
+    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '$EXPECTED_SIGNATURE') { echo 'Installer verified'; } else { echo 'Installer corrupted'; unlink('composer-setup.php'); exit(1); } echo PHP_EOL;" &&\
     php composer-setup.php &&\
     php -r "unlink('composer-setup.php');"
 RUN cd /var/www/html/corpus_shell &&\
