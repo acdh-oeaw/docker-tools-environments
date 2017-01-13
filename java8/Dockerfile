@@ -15,6 +15,8 @@ RUN apt-get update && \
   apt-get install -y supervisor links vim nano && \
   apt-get clean
 
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # expose
