@@ -21,8 +21,6 @@ RUN cd /opt/exist && \
     # git error: wrapper is not executable
     chmod a+x /opt/exist/tools/wrapper/bin/wrapper-linux-x86-64
 
-# Inject config, fix problems
-COPY build-config.diff /opt/exist-build-config.diff
 COPY wrapper.sh /opt/exist/tools/wrapper/bin/wrapper.sh
 RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper.sh
 
