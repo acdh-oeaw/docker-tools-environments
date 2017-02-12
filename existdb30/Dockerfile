@@ -18,8 +18,8 @@ RUN cd /opt/exist && \
     rm -rf webapp/WEB-INF/logs &&\
     ln -s /var/log/exist webapp/WEB-INF/logs &&\
     mkdir -p /opt/exist/tools/jetty/tmp &&\
-    chmod a+rwx /opt/exist/tools/jetty/tmp &&\
-    chgrp users /opt/exist/tools/jetty/tmp &&\
+    chmod a+rwx /opt/exist/tools/jetty/tmp /opt/exist/tools/yajsw/tmp &&\
+    chgrp users /opt/exist/tools/jetty/tmp /opt/exist/tools/yajsw/tmp &&\
     # wrapper changed to yajsw
     rm -rf /opt/exist/tools/wrapper
 
