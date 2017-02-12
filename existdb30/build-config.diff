@@ -55,19 +55,17 @@ index d245634..5551b94 100644
              <exclude name="org/exist/xquery/modules/datetime/**" unless="${include.module.datetime}"/>
              <exclude name="org/exist/xquery/modules/example/**" unless="${include.module.example}"/>
              <exclude name="org/exist/xquery/modules/file/**" unless="${include.module.file}"/>
-diff --git a/log4j2.xml b/log4j2.xml
-index 089cc79..cf29ff6 100644
---- a/log4j2.xml
-+++ b/log4j2.xml
+diff --git "a/C:\\Users\\simar\\AppData\\Local\\Temp\\TortoiseGit\\log4j2-7cf1820.000.xml" "b/M:\\exist\\log4j2.xml"
+index 5238d11..8e0d45b 100644
+--- "a/log4j2-7cf1820.000.xml"
++++ "b/log4j2.xml"
 @@ -1,7 +1,7 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
      <Properties>
--        <Property name="logs">webapp/WEB-INF/logs</Property>
+-        <Property name="logs">${log4j:configParentLocation}/webapp/WEB-INF/logs</Property>
 +        <Property name="logs">$${env:EXIST_HOME}/webapp/WEB-INF/logs</Property>
          <Property name="rollover.max.size">10MB</Property>
          <Property name="rollover.max">14</Property>
          <Property name="rollover.file.pattern">%d{yyyyMMddHHmmss}</Property>
-diff --git a/tools/wrapper/bin/wrapper-linux-x86-64 b/tools/wrapper/bin/wrapper-linux-x86-64
-old mode 100644
-new mode 100755
+
