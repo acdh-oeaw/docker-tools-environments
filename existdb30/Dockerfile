@@ -4,8 +4,10 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 # Inject config, fix problems
 COPY build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && \
-    git checkout eXist-3.0.RC1 && \
-    patch -p1 < ../exist-build-config.diff && ./build.sh &&\
+    git checkout eXist-3.0.RC1 &&\
+    patch -p1 < ../exist-build-config.diff && ./build.sh
+# customize config
+RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\
     mkdir -p /data &&\
     mv /opt/exist/autodeploy /opt/exist/autodeploy.init &&\

@@ -1,3 +1,16 @@
+diff --git a/webapp/WEB-INF/web.xml.tmpl b/webapp/WEB-INF/web.xml.tmpl
+index 598178d..a81813f 100644
+--- a/webapp/WEB-INF/web.xml.tmpl
++++ b/webapp/WEB-INF/web.xml.tmpl
+@@ -95,7 +95,7 @@
+                -->
+         <init-param>
+             <param-name>hidden</param-name>
+-            <param-value>false</param-value>
++            <param-value>true</param-value>
+         </init-param>
+
+         <load-on-startup>2</load-on-startup>
 diff --git a/conf.xml.tmpl b/conf.xml.tmpl
 index 9b54f0f..d9f689a 100644
 --- a/conf.xml.tmpl

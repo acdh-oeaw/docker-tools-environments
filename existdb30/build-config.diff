@@ -1,23 +1,32 @@
+diff --git a/webapp/WEB-INF/web.xml.tmpl b/webapp/WEB-INF/web.xml.tmpl
+index 598178d..a81813f 100644
+--- a/webapp/WEB-INF/web.xml.tmpl
++++ b/webapp/WEB-INF/web.xml.tmpl
+@@ -95,7 +95,7 @@
+                -->
+         <init-param>
+             <param-name>hidden</param-name>
+-            <param-value>false</param-value>
++            <param-value>true</param-value>
+         </init-param>
+
+         <load-on-startup>2</load-on-startup>
 diff --git a/conf.xml.tmpl b/conf.xml.tmpl
-index 5b0f51f..916ee15 100644
---- a/conf.xml.tmpl
-+++ b/conf.xml.tmpl
-@@ -830,6 +830,7 @@
-             <module uri="http://exist-db.org/xquery/mail"               class="org.exist.xquery.modules.mail.MailModule" />
-             <module uri="http://exist-db.org/xquery/scheduler"          class="org.exist.xquery.modules.scheduler.SchedulerModule" />
-             <module uri="http://exist-db.org/xquery/sql"                class="org.exist.xquery.modules.sql.SQLModule" />
-+            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-             <!--module uri="http://exist-db.org/xquery/versioning/svn"     class="org.exist.versioning.svn.xquery.SVNModule" /-->
-             <module uri="http://exist-db.org/xquery/xmldiff"            class="org.exist.xquery.modules.xmldiff.XmlDiffModule" />
- 
-@@ -861,7 +862,6 @@
+index 5b0f51f..ca8f2fa 100644
+--- exist/conf.xml.tmpl.orig	2017-03-10 18:24:31.570157760 +0000
++++ exist/conf.xml.tmpl	2017-03-10 18:25:43.355778692 +0000
+@@ -860,9 +860,9 @@
+             <!--
              <module uri="http://exist-db.org/xquery/cssparser" class="org.exist.xquery.modules.cssparser.CSSParserModule"/>
              <module uri="http://exist-db.org/xquery/backups"            class="org.exist.backup.xquery.BackupModule" />
-             <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
--            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-             <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
+-            <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
++            <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" /-->
+             <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
+-            <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
++            <!-- module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
              <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" /> 
              <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
+             <module uri="http://exist-db.org/xquery/oracle"             class="org.exist.xquery.modules.oracle.OracleModule" />
 diff --git a/extensions/build.properties b/extensions/build.properties
 index 0e85230..d9a8aed 100644
 --- a/extensions/build.properties
