@@ -1,23 +1,32 @@
+diff --git a/webapp/WEB-INF/web.xml.tmpl b/webapp/WEB-INF/web.xml.tmpl
+index 598178d..a81813f 100644
+--- a/webapp/WEB-INF/web.xml.tmpl
++++ b/webapp/WEB-INF/web.xml.tmpl
+@@ -95,7 +95,7 @@
+                -->
+         <init-param>
+             <param-name>hidden</param-name>
+-            <param-value>false</param-value>
++            <param-value>true</param-value>
+         </init-param>
+
+         <load-on-startup>2</load-on-startup>
 diff --git a/conf.xml.tmpl b/conf.xml.tmpl
-index 5b0f51f..916ee15 100644
---- a/conf.xml.tmpl
-+++ b/conf.xml.tmpl
-@@ -830,6 +830,7 @@
-             <module uri="http://exist-db.org/xquery/mail"               class="org.exist.xquery.modules.mail.MailModule" />
-             <module uri="http://exist-db.org/xquery/scheduler"          class="org.exist.xquery.modules.scheduler.SchedulerModule" />
-             <module uri="http://exist-db.org/xquery/sql"                class="org.exist.xquery.modules.sql.SQLModule" />
-+            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-             <!--module uri="http://exist-db.org/xquery/versioning/svn"     class="org.exist.versioning.svn.xquery.SVNModule" /-->
-             <module uri="http://exist-db.org/xquery/xmldiff"            class="org.exist.xquery.modules.xmldiff.XmlDiffModule" />
- 
-@@ -861,7 +862,6 @@
+index 5b0f51f..ca8f2fa 100644
+--- exist/conf.xml.tmpl.orig	2017-03-10 18:24:31.570157760 +0000
++++ exist/conf.xml.tmpl	2017-03-10 18:25:43.355778692 +0000
+@@ -860,9 +860,9 @@
+             <!--
              <module uri="http://exist-db.org/xquery/cssparser" class="org.exist.xquery.modules.cssparser.CSSParserModule"/>
              <module uri="http://exist-db.org/xquery/backups"            class="org.exist.backup.xquery.BackupModule" />
-             <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
--            <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
-             <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
+-            <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" />
++            <module uri="http://exist-db.org/xquery/cache"              class="org.exist.xquery.modules.cache.CacheModule" /-->
+             <module uri="http://exist-db.org/xquery/cqlparser"           class="org.exist.xquery.modules.cqlparser.CQLParserModule" />
+-            <module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
++            <!-- module uri="http://exist-db.org/xquery/exi"                class="org.exist.xquery.modules.exi.ExiModule" />
              <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" /> 
              <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
+             <module uri="http://exist-db.org/xquery/oracle"             class="org.exist.xquery.modules.oracle.OracleModule" />
 diff --git a/extensions/build.properties b/extensions/build.properties
 index 0e85230..d9a8aed 100644
 --- a/extensions/build.properties
@@ -55,44 +64,19 @@ index d245634..5551b94 100644
              <exclude name="org/exist/xquery/modules/datetime/**" unless="${include.module.datetime}"/>
              <exclude name="org/exist/xquery/modules/example/**" unless="${include.module.example}"/>
              <exclude name="org/exist/xquery/modules/file/**" unless="${include.module.file}"/>
-diff --git "a/C:\\Users\\simar\\AppData\\Local\\Temp\\TortoiseGit\\log4j2-7cf1820.000.xml" "b/M:\\exist\\log4j2.xml"
-index 5238d11..8e0d45b 100644
---- "a/log4j2-7cf1820.000.xml"
-+++ "b/log4j2.xml"
+diff --git a/log4j2.xml b/log4j2.xml
+index 089cc79..cf29ff6 100644
+--- a/log4j2.xml
++++ b/log4j2.xml
 @@ -1,7 +1,7 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
      <Properties>
--        <Property name="logs">${log4j:configParentLocation}/webapp/WEB-INF/logs</Property>
+-        <Property name="logs">webapp/WEB-INF/logs</Property>
 +        <Property name="logs">$${env:EXIST_HOME}/webapp/WEB-INF/logs</Property>
          <Property name="rollover.max.size">10MB</Property>
          <Property name="rollover.max">14</Property>
          <Property name="rollover.file.pattern">%d{yyyyMMddHHmmss}</Property>
-diff --git a/tools/jetty/standalone-webapps/exist-webapp-context.xml b/tools/jetty/standalone-webapps/exist-webapp-context.xml
-index 09381da..4269db8 100644
---- a/tools/jetty/standalone-webapps/exist-webapp-context.xml
-+++ b/tools/jetty/standalone-webapps/exist-webapp-context.xml
-@@ -6,7 +6,7 @@
-     <Set name="contextPath">/</Set>
-     <Set name="war"><Property name="jetty.home" default="."/>/etc/standalone</Set>
-     <Set name="defaultsDescriptor"><Property name="jetty.home" default="."/>/etc/webdefault.xml</Set>
--    <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set>
-+    <!-- <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set> -->
-     <Set name="securityHandler">
-         <New class="org.eclipse.jetty.security.ConstraintSecurityHandler">
-             <Set name="loginService">
-diff --git a/tools/jetty/webapps/exist-webapp-context.xml b/tools/jetty/webapps/exist-webapp-context.xml
-index ccff3ee..b66ef0f 100644
---- a/tools/jetty/webapps/exist-webapp-context.xml
-+++ b/tools/jetty/webapps/exist-webapp-context.xml
-@@ -6,7 +6,7 @@
-     <Set name="contextPath">/exist</Set>
-     <Set name="war"><Property name="jetty.home" default="."/>/../../webapp/</Set>
-     <Set name="defaultsDescriptor"><Property name="jetty.home" default="."/>/etc/webdefault.xml</Set>
--    <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set>
-+    <!-- <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set> -->
-     <Set name="securityHandler">
-         <New class="org.eclipse.jetty.security.ConstraintSecurityHandler">
-             <Set name="loginService">
-
-
+diff --git a/tools/wrapper/bin/wrapper-linux-x86-64 b/tools/wrapper/bin/wrapper-linux-x86-64
+old mode 100644
+new mode 100755
