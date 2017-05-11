@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../lib/plugins/default_corparch/resources/corplist.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<kontext>
+    <tagsets>
+        <tagset ident="test" num_pos="1">
+            <position index="1">
+                <label>
+                    <desc lang="en_US"></desc>
+                </label>
+                <value ident="">
+                    <desc lang="en_US"></desc>
+                </value>
+            </position>
+        </tagset>
+    </tagsets>
+    <corplist>       
+        <keywords>
+            <keyword ident="test">
+                <label lang="en_US">Test</label>
+            </keyword>
+        </keywords>
+        <corplist>
+            <corpus ident="susanne" sentence_struct="">
+                <reference>
+                    <default></default>
+                </reference>
+                <metadata></metadata>
+            </corpus>
+        </corplist>
+    </corplist>
+</kontext>

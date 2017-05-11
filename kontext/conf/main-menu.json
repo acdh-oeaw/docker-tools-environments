@@ -1,0 +1,18 @@
+{
+    "menu-help": [
+        {
+            "en_US": {
+                "url": "about:blank",
+                "label": "User manual (to be done)",
+                "openInBlank": true
+            }
+        },
+        {
+            "en_US": {
+                "url": "about:blank",
+                "label": "Linguistic terms (to be done)",
+                "openInBlank": true
+            }
+        }        
+    ]
+}
