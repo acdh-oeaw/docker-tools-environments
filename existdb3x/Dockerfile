@@ -4,7 +4,8 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 # Inject config, fix problems
 COPY exist-build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && \
-    git checkout eXist-3.3.0 &&\
+    git fetch origin +refs/heads/master:refs/remotes/origin/master &&\
+    git checkout eXist-3.4.1 &&\
     patch -p1 < ../exist-build-config.diff && ./build.sh
 # customize config
 RUN cd /opt/exist && \
