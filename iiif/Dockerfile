@@ -31,20 +31,26 @@ RUN wget --no-verbose --no-check-certificate \
 # Copy configuration files for dropzone and iiifserver.conf
 COPY iiifserver.conf /etc/nginx/sites-available/default
 COPY dropzone.py /usr/bin/dropzone.py
-RUN chmod +x /usr/bin/dropzone.py && mkdir -p /dropzone /logo
+RUN chmod +x /usr/bin/dropzone.py && mkdir -p /dropzone /var/cache/nginx /logo /opt/logs \
+    && ln -s /var/log/nginx/error.log /opt/logs/nginx_error.log \
+	&& touch /var/run/nginx.pid 
 
 COPY viewer.html /
 
 # Configure Nginx
 RUN sed -i 's|www-data|user|g' /etc/nginx/nginx.conf 
 ENV TERM xterm
+
 # Configuration for supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-
-VOLUME /data/ /dropzone/ /var/log
+# Change ownership for important directories
+RUN chown -R $USER:$USER /usr/bin/dropzone.py /usr/bin/memcached /opt/logs && \
+    chown -R $USER:$USER /var/www/html /usr/sbin/nginx /etc/nginx /var/lib/nginx /run /var/run/nginx.pid && \
+    chown -R $USER:$USER /var/log/supervisor /var/log/nginx /var/cache/nginx && \
+    chown -R $USER:$USER /data /dropzone /usr/share/cgi-bin  /usr/share/iiifserver /viewer.html
 
 # expose
 CMD ["/usr/bin/supervisord"]
-EXPOSE 80
+EXPOSE 8080
 
