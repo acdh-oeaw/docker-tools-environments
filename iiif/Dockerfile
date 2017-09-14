@@ -29,5 +29,5 @@ RUN  cp -r $DIR/iiifserver/kakadu/*.so /usr/lib/x86_64-linux-gnu && \
      chown -R $USER:$USER /usr/bin/dropzone.py /usr/bin/memcached /data /dropzone \
                           /viewer.html $DIR/cgi-bin  $DIR/iiifserver /opt/iiifserver/logs 
  
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
 
