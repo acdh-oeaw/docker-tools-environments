@@ -12,7 +12,7 @@ RUN tar -xzf drupal.tar.gz && \
   rm -f drupal.tar.gz && \
   rm -fR html && \
   mv drupal-@VERSION@ html && \
-  chown -R www-data:www-data html
+  chown -R www-data:www-data /var/www
 RUN php -r "readfile('http://files.drush.org/drush.phar');" > drush && \
   chmod +x drush && \
   mv drush /usr/local/bin
