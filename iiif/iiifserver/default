@@ -1,0 +1,18 @@
+server {
+
+  listen 80;
+  server_name iiifserver;
+  location ~iiifserver.fcgi$ {
+
+    include fastcgi_params;
+    fastcgi_pass localhost:9000;
+    add_header 'Access-Control-Allow-Origin' "*";
+  }
+
+  # IIIFServer homepage
+  rewrite ^/$ /iiifserver.fcgi break;
+
+  # IIIF Viewer
+  rewrite ^/(.+)$ /iiifserver.fcgi?iiif=$1 break;
+}
+
