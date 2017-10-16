@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi
     cp $DIR/iiifserver/default /etc/nginx/sites-available/default && \
     cd /etc/nginx/sites-enabled && ln -s ../sites-available/default default && \
     rm -fR $DIR/iiifserver &&  rm -fR $DIR/kakadu && \
-    chown -R $USER:$USER $DIR/cgi-bin /data /viewer.html /usr/bin/dropzone.py /usr/bin/memcached /dropzone /var/log/nginx
+    chown -R $USER:$USER $DIR/cgi-bin /data /viewer.html /usr/bin/dropzone.py /usr/bin/memcached /dropzone /var/log/nginx && \
+    chmod +x $DIR/cgi-bin/iiifserver.fcgi /usr/bin/dropzone.py /usr/bin/memcached   
 
 VOLUME /data/ /dropzone/ /var/log/nginx
 CMD ["/usr/bin/supervisord"]
