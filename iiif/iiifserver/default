@@ -5,8 +5,7 @@ server {
   location ~iiifserver.fcgi$ {
 
     include fastcgi_params;
-    fastcgi_pass localhost:9000;
-    add_header 'Access-Control-Allow-Origin' "*";
+    fastcgi_pass localhost:9000;    
   }
 
   # IIIFServer homepage
