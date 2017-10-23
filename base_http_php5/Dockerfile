@@ -17,7 +17,7 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
 # libapache2-mpm-itk requires mpm_event Apache module to be disabled first
 # and it is not automatically done during the install so has to be done by hand
 RUN apt-get update && \
-  apt-get install -y supervisor apache2 links vim && \
+  apt-get install -y supervisor apache2 apache2-utils links vim && \
   a2dismod mpm_event && \
   apt-get install -y libapache2-mpm-itk \
                      php5-cli libapache2-mod-php5 php-pear php5-pgsql \
