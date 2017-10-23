@@ -1,0 +1,45 @@
+--- apache2.conf.orig	2017-10-23 12:56:52.394752936 +0000
++++ apache2.conf	2017-10-23 13:10:58.297930114 +0000
+@@ -125,7 +125,7 @@
+ # logged here.  If you *do* define an error logfile for a <VirtualHost>
+ # container, that host's errors will be logged there and not here.
+ #
+-ErrorLog ${APACHE_LOG_DIR}/error.log
++ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
+ 
+ #
+ # LogLevel: Control the severity of messages logged to the error_log.
+--- sites-available/default-ssl.conf.orig	2017-10-23 12:56:02.882344788 +0000
++++ sites-available/default-ssl.conf	2017-10-23 13:17:24.788251216 +0000
+@@ -10,8 +10,8 @@
+ 		# modules, e.g.
+ 		#LogLevel info ssl:warn
+ 
+-		ErrorLog ${APACHE_LOG_DIR}/error.log
+-		CustomLog ${APACHE_LOG_DIR}/access.log combined
++		ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
++		CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
+ 
+ 		# For most configuration files from conf-available/, which are
+ 		# enabled or disabled at a global level, it is possible to
+--- sites-available/000-default.conf.orig	2017-10-23 12:54:38.520658726 +0000
++++ sites-available/000-default.conf	2017-10-23 13:17:15.313171394 +0000
+@@ -17,8 +17,8 @@
+ 	# modules, e.g.
+ 	#LogLevel info ssl:warn
+ 
+-	ErrorLog ${APACHE_LOG_DIR}/error.log
+-	CustomLog ${APACHE_LOG_DIR}/access.log combined
++        ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
++        CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
+ 
+ 	# For most configuration files from conf-available/, which are
+ 	# enabled or disabled at a global level, it is possible to
+--- conf-available/other-vhosts-access-log.conf.orig	2017-10-23 12:56:37.257626091 +0000
++++ conf-available/other-vhosts-access-log.conf	2017-10-23 13:13:56.074492929 +0000
+@@ -1,4 +1,4 @@
+ # Define an access log for VirtualHosts that don't define their own logfile
+-CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined
++CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/other_vhosts_access.log ${APACHE_LOG_DIR}/other_vhosts_access-%Y-%m-%d.log 86400" vhost_combined
+ 
+ # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
