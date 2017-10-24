@@ -5,7 +5,7 @@
  # container, that host's errors will be logged there and not here.
  #
 -ErrorLog ${APACHE_LOG_DIR}/error.log
-+ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
++ErrorLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
  
  #
  # LogLevel: Control the severity of messages logged to the error_log.
@@ -17,8 +17,8 @@
  
 -		ErrorLog ${APACHE_LOG_DIR}/error.log
 -		CustomLog ${APACHE_LOG_DIR}/access.log combined
-+		ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
-+		CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
++		ErrorLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
++		CustomLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
  
  		# For most configuration files from conf-available/, which are
  		# enabled or disabled at a global level, it is possible to
@@ -30,8 +30,8 @@
  
 -	ErrorLog ${APACHE_LOG_DIR}/error.log
 -	CustomLog ${APACHE_LOG_DIR}/access.log combined
-+        ErrorLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
-+        CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
++        ErrorLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/error.log ${APACHE_LOG_DIR}/error-%Y-%m-%d.log 86400"
++        CustomLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/access.log ${APACHE_LOG_DIR}/access-%Y-%m-%d.log 86400" vhost_combined
  
  	# For most configuration files from conf-available/, which are
  	# enabled or disabled at a global level, it is possible to
@@ -40,6 +40,6 @@
 @@ -1,4 +1,4 @@
  # Define an access log for VirtualHosts that don't define their own logfile
 -CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined
-+CustomLog "|/usr/bin/rotatelogs -L ${APACHE_LOG_DIR}/other_vhosts_access.log ${APACHE_LOG_DIR}/other_vhosts_access-%Y-%m-%d.log 86400" vhost_combined
++CustomLog "|/usr/bin/rotatelogs -p /usr/local/bin/bzip2oldlog.sh -L ${APACHE_LOG_DIR}/other_vhosts_access.log ${APACHE_LOG_DIR}/other_vhosts_access-%Y-%m-%d.log 86400" vhost_combined
  
  # vim: syntax=apache ts=4 sw=4 sts=4 sr noet

@@ -31,5 +31,6 @@ RUN apt-get update && \
   mkdir -p /var/www/exec /var/www/config &&\
   chown www-data:www-data /var/www/exec /var/www/config
 
-COPY conf.patch /etc/apache2/
-RUN cd /etc/apache2 && patch -p0 < conf.patch
+COPY use-rotatelogs.patch /etc/apache2/
+RUN cd /etc/apache2 && patch -p0 < use-rotatelogs.patch
+COPY bzip2oldlog.sh /usr/local/bin/
