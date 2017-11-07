@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi
     mkdir -p /dropzone && \
     mkdir -p $DIR/cgi-bin && \
     sed -i 's|www-data|user|g' /etc/nginx/nginx.conf && \
-    cp -r $DIR/iiifserver/kakadu/*.so /usr/lib/x86_64-linux-gnu && \
-    cp -r $DIR/iiifserver/kakadu/kdu_expand /usr/bin && \
+    cp -r $DIR/iiifserver/kakadu/kdulib/* /usr/lib/x86_64-linux-gnu/ && \
+    cp -r $DIR/iiifserver/kakadu/kdu/* /usr/bin/ && \
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/bin && \
     cp $DIR/iiifserver/dropzone.py /usr/bin/dropzone.py && chmod +x /usr/bin/dropzone.py && \
     cp $DIR/iiifserver/supervisord.conf /etc/supervisor/conf.d/ && \
@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi
     cd /etc/nginx/sites-enabled && ln -s ../sites-available/default default && \
     rm -fR $DIR/iiifserver &&  rm -fR $DIR/kakadu && \
     chown -R $USER:$USER $DIR/cgi-bin /data /viewer.html /usr/bin/dropzone.py /usr/bin/memcached /dropzone /var/log/nginx && \
-    chmod +x $DIR/cgi-bin/iiifserver.fcgi /usr/bin/dropzone.py /usr/bin/memcached   
+    chmod +x $DIR/cgi-bin/iiifserver.fcgi /usr/bin/dropzone.py /usr/bin/memcached /usr/bin/kdu* 
 
 VOLUME /data/ /dropzone/ /var/log/nginx
 CMD ["/usr/bin/supervisord"]
