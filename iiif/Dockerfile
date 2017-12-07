@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi
     apt-get clean && \
     mkdir -p /data && \
     mkdir -p /dropzone && \
+    mkdir -p /logs && \
     mkdir -p $DIR/cgi-bin && \
     sed -i 's|www-data|user|g' /etc/nginx/nginx.conf && \
     cp -r $DIR/iiifserver/kakadu/kdulib/* /usr/lib/x86_64-linux-gnu/ && \
@@ -28,12 +29,18 @@ RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi
     cp $DIR/iiifserver/default /etc/nginx/sites-available/default && \
     cd /etc/nginx/sites-enabled && ln -s ../sites-available/default default && \
     rm -fR $DIR/iiifserver &&  rm -fR $DIR/kakadu && \
-    chown -R $USER:$USER $DIR/cgi-bin /data /viewer.html /usr/bin/dropzone.py /usr/bin/memcached /dropzone /var/log/nginx && \
-    chmod +x $DIR/cgi-bin/iiifserver.fcgi /usr/bin/dropzone.py /usr/bin/memcached /usr/bin/kdu* 
+    touch /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && \
+    echo "#!/bin/bash\n\
+          chown -R $USER:$USER $DIR/cgi-bin /data /viewer.html /usr/bin/dropzone.py /usr/bin/memcached /dropzone /logs\n\
+          chmod +x $DIR/cgi-bin/iiifserver.fcgi /usr/bin/dropzone.py /usr/bin/memcached /usr/bin/kdu*\n\
+          /usr/bin/supervisord\n"\
+       >> /docker-entrypoint.sh
 
-VOLUME /data/ /dropzone/ /var/log/nginx
-CMD ["/usr/bin/supervisord"]
+VOLUME /data/ /dropzone/ /logs
+
 EXPOSE 80
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
  
 
 
