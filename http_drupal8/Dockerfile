@@ -23,3 +23,5 @@ RUN php -r "readfile('https://ftp.drupal.org/files/projects/drupal-@VERSION@.tar
 
 COPY updateLibs.sh /usr/local/sbin/updateLibs.sh
 VOLUME /var/www/html/sites /var/www/html/modules /var/www/html/themes /var/www/html/profiles /var/www/html/libraries
+
+#@INJECT_USER@
