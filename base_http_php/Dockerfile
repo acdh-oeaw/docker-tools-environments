@@ -16,6 +16,8 @@ RUN mkdir -p /var/www/exec  /var/www/config &&\
     chown www-data:www-data /var/www/exec /var/www/config &&\
     sed -i -e 's/upload_max_filesize.*/upload_max_filesize = 64M/' -e 's/post_max_size.*/post_max_size = 64M/' /etc/php/7.0/apache2/php.ini
 
+#@INJECT_USER@
+
 # Do not use VOLUME or EXPOSE in base_ containers. They are meant to be derived from.
 # There is no posibility to alter these in derived images.
 
