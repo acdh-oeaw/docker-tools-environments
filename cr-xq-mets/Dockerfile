@@ -1,4 +1,4 @@
-FROM acdh/existdb3x
+FROM acdh/existdb34
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 COPY log4j2.xml /opt/exist/log4j2.xml

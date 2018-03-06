@@ -1,0 +1,12 @@
+[
+  {
+    "Type" : "eXistdb31",
+    "Name" : "existdb31testenv",
+    "ServerName" : "existdb31.localdomain",
+    "DataDir" : "existdb31/data",
+    "LogDir" : "existdb31/log",
+    "AutodeployDir" : "existdb31/autodeploy",
+    "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP"},
+    "Require" : ["10.0.0.0/8", "127.0.0.0/8", "::1"]
+  }
+]

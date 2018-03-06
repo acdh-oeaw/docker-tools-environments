@@ -1,0 +1,3 @@
+INSTALL_PATH=/opt/exist
+MAX_MEMORY=2048
+cacheSize=256
