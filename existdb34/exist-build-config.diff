@@ -77,3 +77,29 @@ index 898ead5..06b9951 100644
          </init-param>
  
          <load-on-startup>2</load-on-startup>
+diff --git a/tools/jetty/standalone-webapps/exist-webapp-context.xml b/tools/jetty/standalone-webapps/exist-webapp-context.xml
+index 09381da..4269db8 100644
+--- a/tools/jetty/standalone-webapps/exist-webapp-context.xml
++++ b/tools/jetty/standalone-webapps/exist-webapp-context.xml
+@@ -6,7 +6,7 @@
+     <Set name="contextPath">/</Set>
+     <Set name="war"><Property name="jetty.home" default="."/>/etc/standalone</Set>
+     <Set name="defaultsDescriptor"><Property name="jetty.home" default="."/>/etc/webdefault.xml</Set>
+-    <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set>
++    <!-- <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set> -->
+     <Set name="securityHandler">
+         <New class="org.eclipse.jetty.security.ConstraintSecurityHandler">
+             <Set name="loginService">
+diff --git a/tools/jetty/webapps/exist-webapp-context.xml b/tools/jetty/webapps/exist-webapp-context.xml
+index ccff3ee..b66ef0f 100644
+--- a/tools/jetty/webapps/exist-webapp-context.xml
++++ b/tools/jetty/webapps/exist-webapp-context.xml
+@@ -6,7 +6,7 @@
+     <Set name="contextPath">/exist</Set>
+     <Set name="war"><Property name="jetty.home" default="."/>/../../webapp/</Set>
+     <Set name="defaultsDescriptor"><Property name="jetty.home" default="."/>/etc/webdefault.xml</Set>
+-    <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set>
++    <!-- <Set name="tempDirectory"><Property name="jetty.base" default="."/>/tmp</Set> -->
+     <Set name="securityHandler">
+         <New class="org.eclipse.jetty.security.ConstraintSecurityHandler">
+             <Set name="loginService">
