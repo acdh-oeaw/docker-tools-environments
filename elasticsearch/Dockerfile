@@ -1,6 +1,6 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:6.2.3
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
-VOLUME /usr/share/elasticsearch/data /usr/share/elasticsearch/logs /usr/share/elasticsearch/config  /usr/share/elasticsearch/plugins
+VOLUME /usr/share/elasticsearch/data /usr/share/elasticsearch/logs /usr/share/elasticsearch/config
 
 EXPOSE 9200 9300
