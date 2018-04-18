@@ -1,7 +1,7 @@
-FROM docker.elastic.co/kibana/kibana:6.2.2
+FROM docker.elastic.co/kibana/kibana:6.2.3
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
-RUN chown user:user -R /usr/share/kibana/optimize /usr/share/kibana/data
+RUN chown user:user -R /usr/share/kibana/optimize /usr/share/kibana/data /usr/share/kibana/plugins
 
 VOLUME /usr/share/kibana/config /usr/share/kibana/log
 
