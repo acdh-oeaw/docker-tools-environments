@@ -9,7 +9,9 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list && \
   a2enmod headers && \
   a2enmod proxy && \
   a2enmod proxy_http && \
-  apt-get clean
+  apt-get clean && \
+  sed -i -e 's/StartServers.*/StartServers 1/g' /etc/apache2/mods-enabled/mpm_prefork.conf && \
+  sed -i -e 's/MinSpareServers.*/MinSpareServers 1/g' /etc/apache2/mods-enabled/mpm_prefork.conf
 
 # set up utf-8 locale (defaults in offical centos/ubuntu images are POSIX)
 RUN locale-gen en_US.UTF-8
