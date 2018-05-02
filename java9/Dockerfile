@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:artful
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
