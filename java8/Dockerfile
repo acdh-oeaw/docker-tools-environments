@@ -2,6 +2,7 @@ FROM ubuntu:latest
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
+ENV DEBIAN_FRONTEND=noninteractive
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list && \
   apt-get update && apt-get dist-upgrade -y && \
   apt-get install -y openjdk-8-jre-headless maven ant \
