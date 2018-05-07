@@ -12,8 +12,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
 RUN wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open-www_3.105.1-1_all.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open_3.105.1-1_all.deb && \
     wget http://corpora.fi.muni.cz/noske/deb/1604/finlib/archive/finlib_2.36.5-1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open-python_2.151.5-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open_2.151.5-1ubuntu1_amd64.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open-python_2.158.8-1ubuntu1_amd64.deb && \
+    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open_2.158.8-1ubuntu1_amd64.deb && \
     wget http://corpora.fi.muni.cz/noske/deb/1604/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
