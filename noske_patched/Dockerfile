@@ -36,5 +36,6 @@ COPY run_lighttpd.sh /
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 EXPOSE 8080
+#@INJECT_USER@
 CMD ["/bin/sh", "/run_lighttpd.sh"]
 
