@@ -32,11 +32,12 @@ RUN locale-gen --lang en_US.UTF-8 && \
 COPY lighttpd.conf /etc/lighttpd/
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init 
-   
 COPY run_lighttpd.sh /
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 EXPOSE 8080
 CMD ["/bin/sh", "/run_lighttpd.sh"]
-#@INJECT_USER@
+
+
+
 
