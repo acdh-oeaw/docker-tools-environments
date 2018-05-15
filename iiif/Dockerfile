@@ -7,9 +7,10 @@ ENV USER=user \
 COPY iiifserver $DIR/iiifserver
 
 # Update packages
-RUN apt-get update && apt-get install -y wget unzip nano memcached nginx libfcgi0ldbl libtiff-dev \
-                                         libjpeg-turbo8-dev libtool libmemcached11 libpng12-0 python-pip links && \
-    apt-get purge -y apache2 apache2-utils apache2.2-bin && \
+RUN apt-get update && apt-get dist-upgrade -y && \
+    apt-get install -y wget unzip nano memcached nginx libfcgi0ldbl libtiff-dev \
+                       libjpeg-turbo8-dev libtool libmemcached11 libpng16-16 python-pip links && \
+    apt-get purge -y apache2 apache2-utils && \
     apt-get -y autoremove && \
     rm -rf /etc/apache2 && \
     apt-get clean && \

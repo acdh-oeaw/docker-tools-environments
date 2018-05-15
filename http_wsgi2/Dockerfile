@@ -11,3 +11,6 @@ RUN apt-get update && \
 # expose
 EXPOSE 80
 EXPOSE 8000
+
+#@INJECT_USER@
+
