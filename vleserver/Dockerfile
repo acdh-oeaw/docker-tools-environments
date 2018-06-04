@@ -1,5 +1,5 @@
 # Image for the server side RESTful API for VLE
-FROM acdh/base_http_php
+FROM acdh/base_http_php5
 MAINTAINER Omar Siam <Omar.Siam@oeaw.ac.at>
 
 RUN apt-get update && \
