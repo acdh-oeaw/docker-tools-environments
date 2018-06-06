@@ -5,8 +5,12 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 COPY build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && \
     git checkout eXist-2.2 && \
-    patch -p1 < ../exist-build-config.diff && ./build.sh &&\
-    mkdir -p /var/log/exist &&\
+    patch -p1 < ../exist-build-config.diff && ./build.sh
+# remove unsupported and/or unneeded packages not needed for running existdb
+RUN apt remove -y --purge links supervisor ant maven openjdk-8-jdk &&\
+    apt autoremove -y --purge
+# customize config
+RUN mkdir -p /var/log/exist &&\
     mkdir -p /data &&\
     mv /opt/exist/autodeploy /opt/exist/autodeploy.init &&\
     rm -rf tools/wrapper/logs &&\

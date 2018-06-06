@@ -6,6 +6,9 @@ COPY exist-build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && \
     git checkout eXist-3.4.1 &&\
     patch -p1 < ../exist-build-config.diff && ./build.sh
+# remove unsupported and/or unneeded packages not needed for running existdb
+RUN apt remove -y --purge links supervisor ant maven &&\
+    apt autoremove -y --purge
 # customize config
 RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\
