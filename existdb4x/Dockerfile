@@ -4,7 +4,7 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 # Inject config, fix problems
 COPY exist-build-config.diff /opt/exist-build-config.diff
 RUN cd /opt/exist && \
-    git checkout eXist-4.1.0 &&\
+    git checkout eXist-4.2.0 &&\
     patch -p1 < ../exist-build-config.diff && ./build.sh
 # customize config
 RUN cd /opt/exist && \
@@ -25,6 +25,8 @@ RUN cd /opt/exist && \
 
 COPY wrapper.sh /opt/exist/tools/yajsw/bin/wrapper.sh
 RUN chmod a+x /opt/exist/tools/yajsw/bin/wrapper.sh
+
+#@INJECT_USER@
 
 CMD ["/opt/exist/tools/yajsw/bin/wrapper.sh"]
 # We use runtime configuration for that for now.

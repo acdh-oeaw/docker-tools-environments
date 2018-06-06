@@ -26,6 +26,8 @@ RUN cd /opt/exist && \
 COPY wrapper.sh /opt/exist/tools/wrapper/bin/wrapper.sh
 RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper.sh
 
+#@INJECT_USER@
+
 CMD ["/opt/exist/tools/wrapper/bin/wrapper.sh", "/opt/exist/tools/wrapper/conf/wrapper.conf", "wrapper.syslog.ident=exist", "wrapper.name=exist", "wrapper.displayname=eXist db 3.0 RC1", "wrapper.daemonize=FALSE"]
 # We use runtime configuration for that for now.
 # VOLUME /var/log/exist /opt/exist/webapp/WEB-INF/data /opt/exist/autodeploy

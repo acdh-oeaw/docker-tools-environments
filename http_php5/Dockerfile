@@ -9,3 +9,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # expose
 CMD ["/usr/bin/supervisord"]
 EXPOSE 80
+#@INJECT_USER@

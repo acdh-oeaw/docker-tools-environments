@@ -26,6 +26,8 @@ RUN cd /opt/exist && \
 COPY wrapper.sh /opt/exist/tools/yajsw/bin/wrapper.sh
 RUN chmod a+x /opt/exist/tools/yajsw/bin/wrapper.sh
 
+#@INJECT_USER@
+
 CMD ["/opt/exist/tools/yajsw/bin/wrapper.sh"]
 # We use runtime configuration for that for now.
 # VOLUME /var/log/exist /opt/exist/webapp/WEB-INF/data /opt/exist/autodeploy
