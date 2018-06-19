@@ -32,4 +32,4 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-adduser -u $TR_UID -g $TR_GID -h $TR_HOMEDIR $@
+adduser -u $TR_UID -G $@ -h $TR_HOMEDIR $@
