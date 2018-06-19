@@ -1,6 +1,8 @@
 FROM jenkins/jenkins:lts-alpine
 MAINTAINER Omar Siam <Omar.Siam@oeaw.ac.at>
 
+USER root
+
 COPY useradd.sh /usr/sbin/useradd
 COPY groupadd.sh /usr/sbin/groupadd
 RUN chmod u+x /usr/sbin/useradd /usr/sbin/groupadd
