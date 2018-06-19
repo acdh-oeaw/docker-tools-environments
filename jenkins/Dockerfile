@@ -12,3 +12,5 @@ RUN chmod u+x /usr/sbin/useradd /usr/sbin/groupadd
 RUN mkdir -p $JENKINS_HOME \
     && chown -R user "$JENKINS_HOME" /usr/share/jenkins/ref
 #    && adduser -h "$JENKINS_HOME" -u ${uid} -G ${group} -s /bin/bash -D ${user}
+
+USER user
