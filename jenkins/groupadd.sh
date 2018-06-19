@@ -22,4 +22,4 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-echo addgroup -g $TR_GID $@
+addgroup -g $TR_GID $@
