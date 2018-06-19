@@ -10,7 +10,7 @@ key="$1"
 
 case $key in
     -g|--gid)
-    GID="$2"
+    TR_GID="$2"
     shift # past argument
     shift # past value
     ;;
@@ -22,4 +22,4 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-echo addgroup -g $GID $@
+echo addgroup -g $TR_GID $@

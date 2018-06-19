@@ -10,17 +10,17 @@ key="$1"
 
 case $key in
     -u|--uid)
-    UID="$2"
+    TR_UID="$2"
     shift # past argument
     shift # past value
     ;;
     -g|--gid)
-    GID="$2"
+    TR_GID="$2"
     shift # past argument
     shift # past value
     ;;
     -d|--home-dir)
-    HOMEDIR="$2"
+    TR_HOMEDIR="$2"
     shift # past argument
     shift # past value
     ;;
@@ -32,4 +32,4 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-adduser -u $UID -g $GID -h $HOMEDIR $@
+echo adduser -u $TR_UID -g $TR_GID -h $TR_HOMEDIR $@
