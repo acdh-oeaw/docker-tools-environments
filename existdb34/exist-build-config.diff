@@ -103,3 +103,203 @@ index ccff3ee..b66ef0f 100644
      <Set name="securityHandler">
          <New class="org.eclipse.jetty.security.ConstraintSecurityHandler">
              <Set name="loginService">
+ .../org/exist/indexing/range/RangeIndexWorker.java | 27 ++++----
+ .../indexes/range/test/src/xquery/field-type.xql   | 79 ++++++++++++++++++++++
+ .../indexes/range/test/src/xquery/suite-types.xql  |  8 ++-
+ 3 files changed, 99 insertions(+), 15 deletions(-)
+
+diff --git a/extensions/indexes/range/src/org/exist/indexing/range/RangeIndexWorker.java b/extensions/indexes/range/src/org/exist/indexing/range/RangeIndexWorker.java
+index 5775ff57a..d7c06d3ee 100644
+--- a/extensions/indexes/range/src/org/exist/indexing/range/RangeIndexWorker.java
++++ b/extensions/indexes/range/src/org/exist/indexing/range/RangeIndexWorker.java
+@@ -527,14 +527,16 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+                 } else {
+                     query = toQuery(field, qname, keys[0], operator, docs);
+                 }
++                final short nodeType = qname.getNameType() == ElementValue.ATTRIBUTE ? Node.ATTRIBUTE_NODE : Node
++                        .ELEMENT_NODE;
+ 
+                 if (contextSet != null && contextSet.hasOne() && contextSet.getItemType() != Type.DOCUMENT) {
+                     NodesFilter filter = new NodesFilter(contextSet);
+                     filter.init(searcher.getIndexReader());
+                     FilteredQuery filtered = new FilteredQuery(query, filter, FilteredQuery.LEAP_FROG_FILTER_FIRST_STRATEGY);
+-                    resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, null, filtered, null));
++                    resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, nodeType, filtered, null));
+                 } else {
+-                    resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, null, query, null));
++                    resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, nodeType, query, null));
+                 }
+             }
+             return resultSet;
+@@ -571,9 +573,9 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+                 NodesFilter filter = new NodesFilter(contextSet);
+                 filter.init(searcher.getIndexReader());
+                 FilteredQuery filtered = new FilteredQuery(qu, filter, FilteredQuery.LEAP_FROG_FILTER_FIRST_STRATEGY);
+-                resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, null, filtered, null));
++                resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, Node.ELEMENT_NODE, filtered, null));
+             } else {
+-                resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, null, qu, null));
++                resultSet.addAll(doQuery(contextId, docs, contextSet, axis, searcher, Node.ELEMENT_NODE, qu, null));
+             }
+             return resultSet;
+         });
+@@ -594,8 +596,9 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+ //    }
+ 
+     private NodeSet doQuery(final int contextId, final DocumentSet docs, final NodeSet contextSet, final int axis,
+-                            IndexSearcher searcher, final QName qname, Query query, Filter filter) throws IOException {
+-        SearchCollector collector = new SearchCollector(docs, contextSet, qname, axis, contextId);
++                            IndexSearcher searcher, final short nodeType, Query query, Filter filter) throws
++            IOException {
++        SearchCollector collector = new SearchCollector(docs, contextSet, nodeType, axis, contextId);
+         searcher.search(query, filter, collector);
+         return collector.getResultSet();
+     }
+@@ -603,7 +606,7 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+     private class SearchCollector extends Collector {
+         private final NodeSet resultSet;
+         private final NodeSet contextSet;
+-        private final QName qname;
++        private final short nodeType;
+         private final int axis;
+         private final int contextId;
+         private final DocumentSet docs;
+@@ -613,11 +616,11 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+         private BinaryDocValues addressValues;
+         private final byte[] buf = new byte[1024];
+ 
+-        public SearchCollector(DocumentSet docs, NodeSet contextSet, QName qname, int axis, int contextId) {
++        public SearchCollector(DocumentSet docs, NodeSet contextSet, short nodeType, int axis, int contextId) {
+             this.resultSet = new NewArrayNodeSet();
+             this.docs = docs;
+             this.contextSet = contextSet;
+-            this.qname = qname;
++            this.nodeType = nodeType;
+             this.axis = axis;
+             this.contextId = contextId;
+         }
+@@ -651,8 +654,7 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+                 NodeProxy parentNode = contextSet.parentWithChild(storedDocument, nodeId, false, true);
+                 if (parentNode != null) {
+                     NodeProxy storedNode = new NodeProxy(storedDocument, nodeId);
+-                    if (qname != null)
+-                        storedNode.setNodeType(qname.getNameType() == ElementValue.ATTRIBUTE ? Node.ATTRIBUTE_NODE : Node.ELEMENT_NODE);
++                    storedNode.setNodeType(nodeType);
+                     getAddress(doc, storedNode);
+                     if (axis == NodeSet.ANCESTOR) {
+                         resultSet.add(parentNode, sizeHint);
+@@ -666,8 +668,7 @@ public class RangeIndexWorker implements OrderedValuesIndex, QNamedKeysIndex {
+                 }
+             } else {
+                 NodeProxy storedNode = new NodeProxy(storedDocument, nodeId);
+-                if (qname != null)
+-                    storedNode.setNodeType(qname.getNameType() == ElementValue.ATTRIBUTE ? Node.ATTRIBUTE_NODE : Node.ELEMENT_NODE);
++                storedNode.setNodeType(nodeType);
+                 getAddress(doc, storedNode);
+                 resultSet.add(storedNode);
+             }
+diff --git a/extensions/indexes/range/test/src/xquery/field-type.xql b/extensions/indexes/range/test/src/xquery/field-type.xql
+new file mode 100644
+index 000000000..e01a7da2e
+--- /dev/null
++++ b/extensions/indexes/range/test/src/xquery/field-type.xql
+@@ -0,0 +1,79 @@
++xquery version "3.1";
++
++module namespace rt="combined-range-function-signature-test";
++
++declare namespace test="http://exist-db.org/xquery/xqsuite";
++
++declare variable $rt:COLLECTION_CONFIG := 
++    <collection xmlns="http://exist-db.org/collection-config/1.0">
++        <index xmlns:xs="http://www.w3.org/2001/XMLSchema">
++            <range>
++                <create match="//note">
++                    <field name="note-type" match="@type" type="xs:string"/>
++                </create>
++            </range>
++        </index>
++    </collection>;
++
++declare variable $rt:DATA :=
++    <root>
++        <div>
++            <head>Telegram 294530 From the Department of State to the Consulate in Montreal<note
++                    type="source">Source: National Archives, RG 59, Central Files 1967-69, POL 27
++                    ARAB-ISR. Unclassified. Drafted by Loy (E/TT), cleared by Roger P. Davies (NEA) and
++                    Styles (E/OA/AVP), and approved by Rusk.</note>
++                <note type="summary">A message from Deputy Assistant Secretary of State Loy to IATA
++                    Director-General Knut Hammarskjold expressing U.S. concern about recent hijackings.
++                    Loy condemned Israel for the attack on Khaldeh Airport in Lebanon and noted that the
++                    U.S. had registered disapproval of the Athens hijacking of an El Al aircraft.</note>
++            </head>
++        </div>
++    </root>;
++
++declare variable $rt:INDEXED_COLLECTION_NAME := "test-indexed";
++declare variable $rt:INDEXED_COLLECTION := "/db/" || $rt:INDEXED_COLLECTION_NAME;
++
++declare variable $rt:NON_INDEXED_COLLECTION_NAME := "test-non-indexed";
++declare variable $rt:NON_INDEXED_COLLECTION := "/db/" || $rt:NON_INDEXED_COLLECTION_NAME;
++
++declare
++    %test:setUp
++function rt:setup() {
++    xmldb:create-collection("/db/system/config/db", $rt:INDEXED_COLLECTION_NAME),
++    xmldb:store("/db/system/config/db/" || $rt:INDEXED_COLLECTION_NAME, "collection.xconf", $rt:COLLECTION_CONFIG),
++    xmldb:create-collection("/db", $rt:INDEXED_COLLECTION_NAME),
++    xmldb:store($rt:INDEXED_COLLECTION_NAME, "test.xml", $rt:DATA),
++    xmldb:create-collection("/db", $rt:NON_INDEXED_COLLECTION_NAME),
++    xmldb:store($rt:NON_INDEXED_COLLECTION_NAME, "test.xml", $rt:DATA)
++};
++
++declare
++    %test:tearDown
++function rt:cleanup() {
++    xmldb:remove($rt:INDEXED_COLLECTION_NAME),
++    xmldb:remove("/db/system/config/db/" || $rt:INDEXED_COLLECTION_NAME),
++    xmldb:remove($rt:NON_INDEXED_COLLECTION_NAME),
++    xmldb:remove("/db/system/config/db/" || $rt:NON_INDEXED_COLLECTION_NAME)
++};
++
++declare function rt:get-note($div as element(div)) as element(note)  {
++    $div//note[@type='summary']
++};
++
++(:~
++ : Check indexed collection. This query should return one element. 
++ :)
++declare
++    %test:assertXPath('/@type = "summary"')
++function rt:test-indexed-collection() {
++    rt:get-note(collection($rt:INDEXED_COLLECTION_NAME)//div)
++};
++
++(:~
++ : Check non-indexed collection. This query should return one element. 
++ :)
++declare
++    %test:assertXPath('/@type = "summary"')
++function rt:test-non-indexed-collection() {
++    rt:get-note(collection($rt:NON_INDEXED_COLLECTION_NAME)//div)
++};
+\ No newline at end of file
+diff --git a/extensions/indexes/range/test/src/xquery/suite-types.xql b/extensions/indexes/range/test/src/xquery/suite-types.xql
+index bc77f90e9..13ae0174b 100644
+--- a/extensions/indexes/range/test/src/xquery/suite-types.xql
++++ b/extensions/indexes/range/test/src/xquery/suite-types.xql
+@@ -3,6 +3,10 @@ xquery version "3.0";
+ import module namespace test="http://exist-db.org/xquery/xqsuite"
+ at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
+ 
+-import module namespace rtt="http://exist-db.org/xquery/range/types/test" at "file:extensions/indexes/range/test/src/xquery/types.xql";
++import module namespace rt="http://exist-db.org/xquery/range/test/fields" at "file:extensions/indexes/range/test/src/xquery/fields.xql";
++import module namespace st="combined-range-function-signature-test" at "file:extensions/indexes/range/test/src/xquery/field-type.xql";
+ 
+-test:suite(util:list-functions(xs:anyURI("http://exist-db.org/xquery/range/types/test")))
+\ No newline at end of file
++test:suite((
++    util:list-functions(xs:anyURI("http://exist-db.org/xquery/range/test/fields")),
++    util:list-functions(xs:anyURI("combined-range-function-signature-test"))
++))
+\ No newline at end of file
