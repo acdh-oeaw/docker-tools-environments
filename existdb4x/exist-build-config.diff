@@ -77,3 +77,73 @@ index 898ead5..06b9951 100644
          </init-param>
  
          <load-on-startup>2</load-on-startup>
+diff --git a/extensions/security/ldap/src/org/exist/security/realm/ldap/LDAPRealm.java b/extensions/security/ldap/src/org/exist/security/realm/ldap/LDAPRealm.java
+index 71b13e4fc..a78d1bb9c 100644
+--- a/extensions/security/ldap/src/org/exist/security/realm/ldap/LDAPRealm.java
++++ b/extensions/security/ldap/src/org/exist/security/realm/ldap/LDAPRealm.java
+@@ -218,7 +218,8 @@ public class LDAPRealm extends AbstractRealm {
+         
+         try {
+             final LdapContext ctx = getContext(invokingUser);
+-            final SearchResult ldapUser = findAccountByAccountName(ctx, account.getName());
++            try {
++                final SearchResult ldapUser = findAccountByAccountName(ctx, account.getName());
+             if(ldapUser == null) {
+                 throw new AuthenticationException(AuthenticationException.ACCOUNT_NOT_FOUND, "Could not find the account in the LDAP");
+             }
+@@ -323,6 +324,11 @@ public class LDAPRealm extends AbstractRealm {
+                     return account;
+                 }
+             });
++            } finally {
++                if(ctx != null) {
++                    LdapUtils.closeContext(ctx);
++                }
++            }
+         } catch(final NamingException ne) {
+             throw new AuthenticationException(AuthenticationException.UNNOWN_EXCEPTION, ne.getMessage(), ne);
+         } catch(final EXistException ee) {
+@@ -514,10 +520,6 @@ public class LDAPRealm extends AbstractRealm {
+             	LOG.debug(ne.getMessage(), ne);
+             	//LOG.error(new AuthenticationException(AuthenticationException.UNNOWN_EXCEPTION, ne.getMessage()));
+                 return null;
+-            } finally {
+-                if(ctx != null){
+-                    LdapUtils.closeContext(ctx);
+-                }
+             }
+         }
+     }
+@@ -642,10 +644,6 @@ public class LDAPRealm extends AbstractRealm {
+             } catch(final NamingException ne) {
+                 LOG.error(new AuthenticationException(AuthenticationException.UNNOWN_EXCEPTION, ne.getMessage()));
+                 return null;
+-            } finally {
+-                if(ctx != null) {
+-                    LdapUtils.closeContext(ctx);
+-                }
+             }
+         }
+     }
+@@ -848,7 +846,7 @@ public class LDAPRealm extends AbstractRealm {
+         }
+ 
+         public String getValue() {
+-            return value;
++            return value.replace("\\", "\\5c").replace("(", "\\28").replace(")", "\\29");
+         }
+     }
+     
+@@ -1047,12 +1045,7 @@ public class LDAPRealm extends AbstractRealm {
+             }
+         } catch(final NamingException ne) {
+             LOG.error(new AuthenticationException(AuthenticationException.UNNOWN_EXCEPTION, ne.getMessage()));
+-        } finally {
+-            if(ctx != null) {
+-                LdapUtils.closeContext(ctx);
+-            }
+         }
+-
+         return groupnames;
+     }
+     
