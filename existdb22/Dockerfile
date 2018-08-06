@@ -10,7 +10,8 @@ RUN cd /opt/exist && \
 RUN apt remove -y --purge links supervisor ant maven openjdk-8-jdk &&\
     apt autoremove -y --purge
 # customize config
-RUN mkdir -p /var/log/exist &&\
+RUN cd /opt/exist && \
+    mkdir -p /var/log/exist &&\
     mkdir -p /data &&\
     mv /opt/exist/autodeploy /opt/exist/autodeploy.init &&\
     rm -rf tools/wrapper/logs &&\
