@@ -7,19 +7,21 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
     libltdl7 libpcre3 libpcre++ locales \
     python-cheetah python-simplejson \
-    lighttpd && \
+    lighttpd bison && \
     apt-get clean
-RUN wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/archive/bonito-open-www_3.99.9-1_all.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/archive/bonito-open_3.99.9-1_all.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/finlib/archive/finlib_2.36.5-1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/archive/manatee-open-python_2.151.5-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/manatee-open/archive/manatee-open_2.151.5-1ubuntu1_amd64.deb && \
-    wget http://corpora.fi.muni.cz/noske/deb/1604/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+RUN wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open-www_3.105.1-1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open_3.105.1-1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open-python_2.158.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open_2.158.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1604/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
+
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
     rm *.deb
+
 RUN locale-gen --lang en_US.UTF-8 && \
     rm /var/www/bonito/.htaccess && \
     mkdir -p /tmp/lighttpd && chmod a+rwx /tmp/lighttpd && chmod a+rwx /var/log/lighttpd && \
