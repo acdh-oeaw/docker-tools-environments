@@ -7,7 +7,7 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
     libltdl7 libpcre3 libpcre++ locales \
     python-cheetah python-simplejson \
-    lighttpd bison && \
+    lighttpd bison make && \
     apt-get clean
 RUN wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open-www_3.105.1-1_all.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open_3.105.1-1_all.deb && \
