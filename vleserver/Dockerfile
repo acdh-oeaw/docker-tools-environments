@@ -1,6 +1,4 @@
 # Image for the server side RESTful API for VLE
-# Apache is running using the ITK module so
-# --cap-add=SYS_NICE --cap-add=DAC_READ_SEARCH docker privileges are required
 FROM php:7.1-apache
 MAINTAINER Omar Siam <Omar.Siam@oeaw.ac.at>
 
@@ -23,7 +21,8 @@ RUN cd /var/www/exec/vleserver &&\
     php composer-setup.php &&\
     php -r "unlink('composer-setup.php');"
 RUN cd /var/www/exec/vleserver &&\
-    php composer.phar install --no-dev --prefer-dist --optimize-autoloader &&\
+    php composer.phar install --no-dev --prefer-dist --optimize-autoloader
+RUN cd /var/www/exec/vleserver &&\
     ln -s /var/www/exec/vleserver/public /var/www/html/resttest &&\
     ln -s /var/www/exec/vleserver/public /var/www/html/restutf8 &&\
     echo "RewriteEngine On" > /var/www/html/.htaccess &&\
