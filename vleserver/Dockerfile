@@ -26,8 +26,8 @@ RUN cd /var/www/exec/vleserver &&\
     php composer.phar install --no-dev --prefer-dist --optimize-autoloader &&\
     ln -s /var/www/exec/vleserver/public /var/www/html/resttest &&\
     ln -s /var/www/exec/vleserver/public /var/www/html/restutf8 &&\
-    echo "RewriteEngine On \
-RewriteRule ^$ /restutf8 [L]" > /var/www/html/.htaccess &&\
+    echo "RewriteEngine On" > /var/www/html/.htaccess &&\
+    echo "RewriteRule ^$ /restutf8 [L]" >> /var/www/html/.htaccess &&\
     chown 33:33 /var/www/exec/vleserver/data/cache &&\
     a2enmod rewrite && \
     a2enmod headers && \
