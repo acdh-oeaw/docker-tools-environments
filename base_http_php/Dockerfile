@@ -12,7 +12,8 @@ RUN apt update && apt full-upgrade -y && \
                  php-mysql php-gd php-recode php-readline php-json \
                  php-curl php-gmp php-ldap php-odbc php-sqlite3 \
                  php-xmlrpc php-intl php-xsl php-mbstring php-apcu \
-                 php-zip php-yaml mysql-client w3c-sgml-lib composer && \
+                 php-zip php-yaml php-imagick mysql-client w3c-sgml-lib \
+                 composer && \
   apt clean && \
   rm -f /etc/localtime && \
   ln -s /usr/share/zoneinfo/Europe/Vienna /etc/localtime && \
