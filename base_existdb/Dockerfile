@@ -12,4 +12,7 @@ RUN cd /opt/exist && git checkout eXist-2.2 &&\
 ENV EXIST_HOME /opt/exist
 ENV PATH $PATH:/opt/exist/bin
 
+RUN cd /opt && git clone --verbose --progress https://github.com/dariok/eXgit.git
+RUN cd /opt/eXgit && mvn clean package && cp target/exgit-full.jar $EXIST_HOME/lib/user
+
  # not usable on its own! Use existdb22 or existdb30

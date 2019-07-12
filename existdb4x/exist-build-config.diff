@@ -1,5 +1,5 @@
-diff --git a/conf.xml.tmpl bunnecessarympl
-index 3677fcc0a..b110e9828 100644
+diff --git a/conf.xml.tmpl b/conf.xml.tmpl
+index d5329fb..1c67b9d 100644
 --- a/conf.xml.tmpl
 +++ b/conf.xml.tmpl
 @@ -905,9 +905,9 @@
@@ -14,6 +14,16 @@ index 3677fcc0a..b110e9828 100644
              <module uri="http://exist-db.org/xquery/jndi"               class="org.exist.xquery.modules.jndi.JNDIModule" />
              <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" />
              <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
+@@ -916,7 +916,7 @@
+             <module uri="http://exist-db.org/xquery/versioning/svn"     class="org.exist.versioning.svn.xquery.SVNModule" />
+             <module uri="http://exist-db.org/xquery/xmpp"               class="org.exist.xquery.modules.xmpp.XMPPModule" />
+             -->
+-
++            <module uri="http://exist-db.org/xquery/exgit" class="org.exist.xquery.modules.exgit.Exgit"/>
+             <!--
+                 exiftool:
+                 - perl-path - file system path to the perl executable
+
 diff --git a/extensions/build.properties b/extensions/build.properties
 index 5a2073d..a03d63f 100644
 --- a/extensions/build.properties
