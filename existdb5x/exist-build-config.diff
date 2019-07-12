@@ -1,5 +1,5 @@
-diff --git a/conf.xml.tmpl bunnecessarympl
-index 3677fcc0a..b110e9828 100644
+diff --git a/conf.xml.tmpl b/conf.xml.tmpl
+index d5329fb..1c67b9d 100644
 --- a/conf.xml.tmpl
 +++ b/conf.xml.tmpl
 @@ -905,9 +905,9 @@
@@ -14,43 +14,42 @@ index 3677fcc0a..b110e9828 100644
              <module uri="http://exist-db.org/xquery/jndi"               class="org.exist.xquery.modules.jndi.JNDIModule" />
              <module uri="http://exist-db.org/xquery/jfreechart"         class="org.exist.xquery.modules.jfreechart.JFreeChartModule" />
              <module uri="http://exist-db.org/xquery/memcached"          class="org.exist.xquery.modules.memcached.MemcachedModule" />
+@@ -916,7 +916,7 @@
+             <module uri="http://exist-db.org/xquery/versioning/svn"     class="org.exist.versioning.svn.xquery.SVNModule" />
+             <module uri="http://exist-db.org/xquery/xmpp"               class="org.exist.xquery.modules.xmpp.XMPPModule" />
+             -->
+-
++            <module uri="http://exist-db.org/xquery/exgit" class="org.exist.xquery.modules.exgit.Exgit"/>
+             <!--
+                 exiftool:
+                 - perl-path - file system path to the perl executable
+
 diff --git a/extensions/build.properties b/extensions/build.properties
-index 5a2073d..a03d63f 100644
+index fe679a9..ef8be4d 100644
 --- a/extensions/build.properties
 +++ b/extensions/build.properties
-@@ -94,8 +94,8 @@ include.module.context = false
+@@ -96,7 +96,7 @@ include.module.context = false
  include.module.counter = true
- 
+
  # Contextual Query Parser (CQL) module
 -include.module.cqlparser = false
--include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.10/cql-java-1.10.jar
 +include.module.cqlparser = true
-+include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.13/cql-java-1.13.jar
- 
+
  # Date/DateTime/Time utility functions module
  include.module.datetime = true
-diff --git a/extensions/modules/build.xml b/extensions/modules/build.xml
-index c255ebb..ab702f1 100644
---- a/extensions/modules/build.xml
-+++ b/extensions/modules/build.xml
-@@ -171,7 +171,7 @@
-     <!-- 
-         Special targets for cqlparser module 
-     -->
--    <target name="prepare-cqlparser" if="${include.module.cqlparser}">
-+    <target name="prepare-cqlparser" if="true">
-         <echo message="------------------------------------------------------"/>
-         <echo message="Downloading libraries required by the cqlparser module"/>
-         <echo message="------------------------------------------------------"/>
-@@ -222,7 +222,7 @@
-             <exclude name="org/exist/xquery/modules/compression/**" unless="${include.module.compression}"/>
-             <exclude name="org/exist/xquery/modules/context/**" unless="${include.module.context}"/>
-             <exclude name="org/exist/xquery/modules/counter/**" unless="${include.module.counter}"/>
--            <exclude name="org/exist/xquery/modules/cqlparser/**" unless="${include.module.cqlparser}"/>
-+            <exclude name="org/exist/xquery/modules/cqlparser/**" unless="true"/>
-             <exclude name="org/exist/xquery/modules/datetime/**" unless="${include.module.datetime}"/>
-             <exclude name="org/exist/xquery/modules/example/**" unless="${include.module.example}"/>
-             <exclude name="org/exist/xquery/modules/file/**" unless="${include.module.file}"/>
+diff --git a/extensions/modules/cqlparser/ivy.xml b/extensions/modules/cqlparser/ivy.xml
+index cee8c67..20d3abf 100644
+--- a/extensions/modules/cqlparser/ivy.xml
++++ b/extensions/modules/cqlparser/ivy.xml
+@@ -22,7 +22,7 @@
+     <info organisation="org.exist" module="cqlparser"/>
+
+     <dependencies>
+-        <dependency org="org.z3950.zing" name="cql-java" rev="1.10" conf="*->*,!sources,!javadoc"/>
++        <dependency org="org.z3950.zing" name="cql-java" rev="1.13" conf="*->*,!sources,!javadoc"/>
+     </dependencies>
+
+ </ivy-module>
 diff --git a/log4j2.xml b/log4j2.xml
 index 5238d11..8e0d45b 100644
 --- a/log4j2.xml
