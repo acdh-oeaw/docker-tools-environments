@@ -1,11 +1,11 @@
-FROM ubuntu:artful
+FROM ubuntu:bionic
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
 ENV DEBIAN_FRONTEND=noninteractive
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list && \
   apt-get update && apt-get dist-upgrade -y && \
-  apt-get install -y openjdk-9-jdk-headless maven ant \
+  apt-get install -y openjdk-11-jdk-headless maven ant \
                      supervisor links curl vim nano locales && \
   apt-get clean
 
@@ -13,6 +13,8 @@ RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list && \
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

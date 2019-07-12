@@ -1,0 +1,14 @@
+[
+  {
+    "Type" : "Java11",
+    "Name" : "java11testenv",
+    "ServerName" : "java11.localdomain",
+    "JavaParams" : ["-jar", "MinimalHTTP.jar"],
+    "Mounts" : [
+      { "Host" : "java11/log", "Guest" : "/log", "Rights" : "rw" },
+      { "Host" : "java11/opt", "Guest" : "/opt", "Rights" : "rw" }
+      ],
+    "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP"},
+    "Require" : ["10.0.0.0/8", "127.0.0.0/8", "::1"]
+  }
+]
