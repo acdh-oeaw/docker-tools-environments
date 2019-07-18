@@ -14,5 +14,6 @@ COPY register-gitlab-runner.sh /
 VOLUME /home/gitlab-runner
 VOLUME /etc/gitlab-runner
 COPY wrapper.sh /opt/exist/tools/yajsw/bin/wrapper.sh
+COPY diffpng /usr/bin
 #@INJECT_USER@
 RUN chmod a+x /opt/exist/tools/yajsw/bin/wrapper.sh

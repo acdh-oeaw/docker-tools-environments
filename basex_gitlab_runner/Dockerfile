@@ -10,6 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - &&\
 COPY gitlab-runner_amd64.deb /
 RUN dpkg-deb -x /gitlab-runner_amd64.deb / && rm /gitlab-runner_amd64.deb
 COPY register-gitlab-runner.sh /
+COPY diffpng /usr/bin
 # wrapper with added gitlab-runner, needs a work directory /home/gitlab-runner, config in /etc/gitlab-runner
 # Cannot force volumes here because populating them with contents from within the container needs a
 # runnable container. This container cannot run without an unpacked BaseX installation.
