@@ -1,4 +1,4 @@
-#!/usr/sh
+#!/usr/bin/sh
 
 # Translates arguments between standard useradd and busybox'es adduser
 # busybox does not accept long args, uses -h instead of -d
