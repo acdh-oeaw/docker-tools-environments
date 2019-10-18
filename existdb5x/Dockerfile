@@ -5,8 +5,8 @@ COPY busybox /bin/busybox
 COPY busybox /bin/sh
 COPY busybox /bin/rm
 COPY busybox /bin/ln
-COPY useradd.sh /usr/sbin/useradd
-COPY groupadd.sh /usr/sbin/groupadd
+COPY useradd.sh /bin/useradd
+COPY groupadd.sh /bin/groupadd
 RUN cd /bin && rm sh && ln -s busybox sh && ln -s busybox cp &&\
   rm rm && cp sh rm && cp rm ln && cp rm chmod &&\
   chmod u+x /usr/sbin/useradd /usr/sbin/groupadd
