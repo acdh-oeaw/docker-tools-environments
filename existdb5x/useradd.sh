@@ -31,4 +31,4 @@ case $key in
 esac
 done
 
-echo adduser -S -u $TR_UID -G $POSITIONAL -h $TR_HOMEDIR $POSITIONAL
+adduser -S -u $TR_UID -G $POSITIONAL -h $TR_HOMEDIR $POSITIONAL
