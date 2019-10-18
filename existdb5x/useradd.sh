@@ -25,7 +25,7 @@ case $key in
     shift # past value
     ;;
     *)    # unknown option
-    POSITIONAL+=" $1" # save it in an array for later
+    POSITIONAL="$POSITIONAL $1" # save it in an array for later
     shift # past argument
     ;;
 esac
