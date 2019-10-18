@@ -9,7 +9,7 @@ COPY useradd.sh /bin/useradd
 COPY groupadd.sh /bin/groupadd
 RUN cd /bin && rm sh && ln -s busybox sh && ln -s busybox cp &&\
   rm rm && cp sh rm && cp rm ln && cp rm chmod &&\
-  chmod u+x /usr/sbin/useradd /usr/sbin/groupadd
+  chmod u+x /bin/useradd /bin/groupadd
 
 #@INJECT_USER@
 
