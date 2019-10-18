@@ -1,11 +1,11 @@
 [
   {
-    "Type" : "eXistdb31",
-    "Name" : "existdb31testenv",
-    "ServerName" : "existdb31.localdomain",
-    "DataDir" : "existdb31/data",
-    "LogDir" : "existdb31/log",
-    "AutodeployDir" : "existdb31/autodeploy",
+    "Type" : "eXistdb5x",
+    "Name" : "existdb5xtestenv",
+    "ServerName" : "existdb5x.localdomain",
+    "DataDir" : "existdb5x/data",
+    "LogDir" : "existdb5x/log",
+    "AutodeployDir" : "existdb5x/autodeploy",
     "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP"},
     "Require" : ["10.0.0.0/8", "127.0.0.0/8", "::1"]
   }
