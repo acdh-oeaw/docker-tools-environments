@@ -5,7 +5,8 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - &&\
     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list &&\
-    apt update && apt install -y git curl tar xz-utils bzip2 zstd p7zip ant maven chromium-browser nodejs yarn
+    apt update && apt install -y git curl tar xz-utils bzip2 zstd p7zip ant maven chromium-browser nodejs yarn \
+      xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
 # The deb file is broken ...
 COPY gitlab-runner_amd64.deb /
 RUN dpkg-deb -x /gitlab-runner_amd64.deb / && rm /gitlab-runner_amd64.deb
