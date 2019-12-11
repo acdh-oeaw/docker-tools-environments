@@ -4,15 +4,17 @@ MAINTAINER Omar.Siam@oeaw.ac.at
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
-    libltdl7 libpcre3 libpcre++ locales \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils wget python \
+    libltdl7 libpcre3 libpcre++ locales locales-all \
     python-cheetah python-simplejson \
-    lighttpd bison make && \
+    python3-dev \
+    lighttpd bison make parallel && \
     apt-get clean
 
 RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
     wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
