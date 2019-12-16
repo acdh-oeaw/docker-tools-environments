@@ -1,19 +1,22 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER Omar.Siam@oeaw.ac.at
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget python \
-    libltdl7 libpcre3 libpcre++ locales \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils wget python \
+    libltdl7 libpcre3 libpcre++ locales locales-all \
     python-cheetah python-simplejson \
-    lighttpd bison make && \
+    python3-dev \
+    lighttpd bison make parallel && \
     apt-get clean
-RUN wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open-www_3.105.1-1_all.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1604/bonito-open/bonito-open_3.105.1-1_all.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open-python_2.158.8-1ubuntu1_amd64.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1604/manatee-open/manatee-open_2.158.8-1ubuntu1_amd64.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1604/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+
+RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
