@@ -2,7 +2,7 @@ FROM ubuntu:eoan
 ENV DEBIAN_FRONTEND=noninteractive PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/www/drupal/git/vendor/drush/drush/
 RUN apt update &&\
     apt upgrade -y &&\
-    apt install -y composer curl git vim apache2 libapache2-mod-php php-opcache php-cli php-curl php-gd php-json php-mbstring php-mysql php-pgsql php-sqlite3 php-xml php-zip &&\
+    apt install -y composer curl git vim apache2 libapache2-mod-php php-opcache php-cli php-curl php-gd php-json php-mbstring php-mysql php-pgsql php-sqlite3 php-xml php-yaml php-zip &&\
     a2enmod rewrite &&\
     usermod -d /var/www/drupal www-data &&\
     mkdir -p /var/www/drupal/composer &&\
