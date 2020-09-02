@@ -2,9 +2,10 @@ FROM acdh/base_existdb
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
-COPY exist-build-config.diff /opt/exist-build-config.diff
+COPY exist-build-config.diff 0001-Force-update-RestXQ-for-Chrome.patch /opt/
 RUN cd /opt/exist && \
     git checkout eXist-4.3.1 &&\
+    git apply ../0001-Force-update-RestXQ-for-Chrome.patch &&\
     patch -p1 < ../exist-build-config.diff && ./build.sh
 # remove unsupported and/or unneeded packages not needed for running existdb
 RUN apt remove -y --purge links supervisor ant maven openjdk-8-jdk &&\
