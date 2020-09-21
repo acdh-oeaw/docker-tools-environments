@@ -1,4 +1,4 @@
-FROM existdb/existdb:5.0.0
+FROM existdb/existdb:5.2.0
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 COPY busybox /bin/sh
