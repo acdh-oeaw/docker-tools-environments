@@ -16,6 +16,8 @@ RUN ln -sf /usr/bin/busybox /bin/sh && cd /usr/bin && ln -sf busybox sh && ln -s
 
 ENV JAVA_TOOL_OPTIONS \
     $JAVA_TOOL_OPTIONS \
+    -Dorg.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT
+    -Dorg.exist.webdav.GET_METHOD_XML_SIZE=EXACT
     -XX:+UseContainerSupport \
     -XX:MaxHeapFreeRatio=20 \
     -XX:MinHeapFreeRatio=10 \
