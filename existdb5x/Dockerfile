@@ -1,5 +1,5 @@
 FROM existdb/existdb:5.2.0
-MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
+LABEL maintainer="Omar Siam <omar.siam@oeaw.ac.at>"
 
 COPY busybox /bin/sh
 COPY busybox /usr/bin/busybox
@@ -13,6 +13,13 @@ RUN ln -sf /usr/bin/busybox /bin/sh && cd /usr/bin && ln -sf busybox sh && ln -s
   ln -sf busybox rm && ln -sf busybox ln && ln -sf busybox ls &&\
   ln -sf busybox chmod && ln -sf busybox adduser && ln -sf busybox addgroup &&\
   chmod u+x /usr/bin/useradd /usr/bin/groupadd /bin/bash
+
+ENV JAVA_TOOL_OPTIONS \
+    $JAVA_TOOL_OPTIONS \
+    -XX:+UseContainerSupport \
+    -XX:MaxHeapFreeRatio=20 \
+    -XX:MinHeapFreeRatio=10 \
+    -XX:GCTimeRatio=20
 
 #@INJECT_USER@
 
