@@ -11,12 +11,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils wget python \
     lighttpd bison make parallel && \
     apt-get clean
 
-RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
-    wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+## 2020-10-27 : because of ongoing certificate-problems we use "wget --no-check-certificate"
+RUN wget --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
+    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
+    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
+    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
+    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
+    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
