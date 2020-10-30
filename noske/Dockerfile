@@ -1,42 +1,49 @@
-FROM ubuntu:18.04
+FROM centos:7
 MAINTAINER Omar.Siam@oeaw.ac.at
 
-RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
-    DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils wget python \
-    libltdl7 libpcre3 libpcre++ locales locales-all \
-    python-cheetah python-simplejson \
-    python3-dev \
-    lighttpd bison make parallel && \
-    apt-get clean
+RUN yum install -y epel-release && \
+    yum install -y lighttpd lighttpd-fastcgi && \
+    yum clean all
 
-## 2020-10-27 : because of ongoing certificate-problems we use "wget --no-check-certificate"
-RUN wget --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+RUN curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito4-open-4.24.6-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.167.10-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python-2.167.10-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.167.10-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.167.10-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.14-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/gdex/gdex-3.12-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/rpm/centos7/python-prctl/python-prctl-1.6.1-4.20150909git.el7.centos.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/rpm/centos7/python-signalfd/python-signalfd-0.1-5.el7.centos.x86_64.rpm
 
-# bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
-COPY apache2-dummy_1.0_amd64.deb /
+# bonito-www(-open) depends on httpd. It works with lighttpd of course but the package system requires something.
+# This fake package was created using https://github.com/larsks/fakeprovide.git
+COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm /
 
-RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
-    dpkg --install *.deb && \
-    rm *.deb
+#RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
+RUN yum install -y ./* && \
+    rm *.rpm
 
-RUN locale-gen --lang en_US.UTF-8 && \
-    rm /var/www/bonito/.htaccess && \
+RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \
     mkdir -p /tmp/lighttpd && chmod a+rwx /tmp/lighttpd && chmod a+rwx /var/log/lighttpd && \
-    mkdir -p /var/lib/bonito/jobs && chmod a+rwx /var/lib/bonito/jobs &&\
-    mkdir -p /var/lib/bonito/cache && chmod a+rwx /var/lib/bonito/cache
+    mkdir -p /var/lib/bonito/jobs && chmod a+rwx /var/lib/bonito/jobs && \
+    mkdir -p /var/lib/bonito/cache && chmod a+rwx /var/lib/bonito/cache && \
+    mkdir -p /var/www/test/bonito/
 COPY lighttpd.conf /etc/lighttpd/
+COPY run.cgi /var/www/bonito/
+COPY test-run.cgi /var/www/test/bonito/run.cgi
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
-RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init
+# This was am ubuntu based image which has it's python packages in dist-packages
+# The customized directory is mounted there hence it hast to be replicated here
+RUN mkdir -p /usr/lib/python2.7/dist-packages && \
+    mv /usr/lib/python2.7/site-packages/bonito /usr/lib/python2.7/dist-packages && \
+    cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonoto.init && \
+    ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito
 COPY run_lighttpd.sh /
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 EXPOSE 8080
+
+HEALTHCHECK --timeout=1s \
+  CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
 CMD ["/bin/sh", "/run_lighttpd.sh"] 
 
