@@ -23,13 +23,9 @@ COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm /
 RUN yum install -y ./* && \
     rm *.rpm
 
-RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \
+RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \
     mkdir -p /var/www/test/bonito/ && \
-    usermod -l www-data lighttpd && groupmod -n www-data lighttpd && \
-    mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
-    mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
-    mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
-    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress
+    usermod -l www-data lighttpd && groupmod -n www-data lighttpd
 COPY lighttpd.conf /etc/lighttpd/
 COPY run.cgi /var/www/bonito/
 COPY test-run.cgi /var/www/test/bonito/run.cgi
@@ -48,7 +44,14 @@ EXPOSE 8080
 HEALTHCHECK --timeout=1s \
   CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
 
+#@INJECT_USER@
+
+USER root
+
+RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
+    mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
+    mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
+    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress
+
 USER www-data
 CMD ["/bin/sh", "/run_lighttpd.sh"]
-
-#@INJECT_USER@
