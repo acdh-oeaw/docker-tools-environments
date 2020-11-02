@@ -35,6 +35,7 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages && \
     ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito && \
     mv /var/www/crystal /var/www/crystal.init
 COPY lighttpd.conf /etc/lighttpd/
+COPY add_auth.sh /etc/lighttpd/
 COPY run_lighttpd.sh /
 COPY run.cgi /var/www/bonito/
 COPY test-run.cgi /var/www/test/bonito/run.cgi
@@ -46,6 +47,7 @@ HEALTHCHECK --timeout=1s \
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 ENV HTTPD_LOGFILE=/dev/fd/3
 ENV LOGIDSITE=0
+ENV HTPASSWD_FILE=""
 #@INJECT_USER@
 
 USER root
