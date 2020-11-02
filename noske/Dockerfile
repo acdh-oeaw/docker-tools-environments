@@ -36,6 +36,7 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages && \
     mv /var/www/crystal /var/www/crystal.init
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 ENV LOGIDSITE=0
+ENV HTTPD_LOGFILE=/dev/fd/3
 COPY lighttpd.conf /etc/lighttpd/
 COPY run_lighttpd.sh /
 COPY run.cgi /var/www/bonito/
