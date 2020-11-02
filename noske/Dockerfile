@@ -34,9 +34,6 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages && \
     cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonoto.init && \
     ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito && \
     mv /var/www/crystal /var/www/crystal.init
-ENV MANATEE_REGISTRY=/var/lib/manatee/registry
-ENV LOGIDSITE=0
-ENV HTTPD_LOGFILE=/dev/fd/3
 COPY lighttpd.conf /etc/lighttpd/
 COPY run_lighttpd.sh /
 COPY run.cgi /var/www/bonito/
@@ -58,4 +55,7 @@ RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
 
 USER www-data
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito /var/www/crystal
+ENV MANATEE_REGISTRY=/var/lib/manatee/registry
+ENV HTTPD_LOGFILE=/dev/fd/3
+ENV LOGIDSITE=0
 CMD ["/bin/sh", "/run_lighttpd.sh"]
