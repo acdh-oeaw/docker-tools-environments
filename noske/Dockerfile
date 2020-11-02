@@ -43,6 +43,9 @@ EXPOSE 8080
 HEALTHCHECK --timeout=1s \
   CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
 
+ENV MANATEE_REGISTRY=/var/lib/manatee/registry
+ENV HTTPD_LOGFILE=/dev/fd/3
+ENV LOGIDSITE=0
 #@INJECT_USER@
 
 USER root
@@ -55,7 +58,4 @@ RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
 
 USER www-data
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito /var/www/crystal
-ENV MANATEE_REGISTRY=/var/lib/manatee/registry
-ENV HTTPD_LOGFILE=/dev/fd/3
-ENV LOGIDSITE=0
 CMD ["/bin/sh", "/run_lighttpd.sh"]
