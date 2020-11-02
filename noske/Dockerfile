@@ -26,19 +26,20 @@ RUN yum install -y ./* && \
 RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \
     mkdir -p /var/www/test/bonito/ && \
     usermod -l www-data lighttpd && groupmod -n www-data lighttpd
-COPY lighttpd.conf /etc/lighttpd/
-COPY run.cgi /var/www/bonito/
-COPY test-run.cgi /var/www/test/bonito/run.cgi
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 # This was am ubuntu based image which has it's python packages in dist-packages
 # The customized directory is mounted there hence it hast to be replicated here
 RUN mkdir -p /usr/lib/python2.7/dist-packages && \
     mv /usr/lib/python2.7/site-packages/bonito /usr/lib/python2.7/dist-packages && \
     cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonoto.init && \
-    ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito
-COPY run_lighttpd.sh /
-VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
+    ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito && \
+    mv /var/www/crystal /var/www/crystal.init
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
+ENV LOGIDSITE=0
+COPY lighttpd.conf /etc/lighttpd/
+COPY run_lighttpd.sh /
+COPY run.cgi /var/www/bonito/
+COPY test-run.cgi /var/www/test/bonito/run.cgi
 EXPOSE 8080
 
 HEALTHCHECK --timeout=1s \
@@ -51,7 +52,9 @@ USER root
 RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
     mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
     mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
-    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress
+    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress && \
+    mkdir -p /var/www/crystal && chown www-data:www-data /var/www/crystal
 
 USER www-data
+VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito /var/www/crystal
 CMD ["/bin/sh", "/run_lighttpd.sh"]
