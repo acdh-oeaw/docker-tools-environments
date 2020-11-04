@@ -21,7 +21,13 @@ except:
 # You may also set it in the webserver configuration instead, see the .htaccess file in
 # Bonito distribution tarball for an Apache-based example
 #
-print('Access-Control-Allow-Origin: '+os.environ["REQUEST_SCHEME"]+'://'+os.environ["HTTP_HOST"])
+if os.environ.get("HTTP_FRONT_END_HTTPS") == "on":
+    request_scheme = "https"
+elif  os.environ.get("REQUEST_SCHEME") is not None:
+    request_scheme = os.environ.get("REQUEST_SCHEME")
+else:
+    request_scheme = "http"
+print('Access-Control-Allow-Origin: '+request_scheme+'://'+os.environ["HTTP_HOST"])
 print('Access-Control-Allow-Credentials: true')
 print('Access-Control-Allow-Headers: content-type')
 

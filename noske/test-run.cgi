@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import os
 if os.environ.get("HTTP_FRONT_END_HTTPS") == "on":
     request_scheme = "https"
