@@ -26,16 +26,31 @@ RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && 
     rm *.deb
 
 RUN locale-gen --lang en_US.UTF-8 && \
-    rm /var/www/bonito/.htaccess && \
-    mkdir -p /tmp/lighttpd && chmod a+rwx /tmp/lighttpd && chmod a+rwx /var/log/lighttpd && \
-    mkdir -p /var/lib/bonito/jobs && chmod a+rwx /var/lib/bonito/jobs &&\
-    mkdir -p /var/lib/bonito/cache && chmod a+rwx /var/lib/bonito/cache
-COPY lighttpd.conf /etc/lighttpd/
+    rm /var/www/bonito/.htaccess
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init
+COPY lighttpd.conf /etc/lighttpd/
+COPY add_auth.sh /etc/lighttpd/
 COPY run_lighttpd.sh /
-VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
-ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 EXPOSE 8080
-CMD ["/bin/sh", "/run_lighttpd.sh"] 
 
+HEALTHCHECK --timeout=1s \
+  CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
+
+ENV MANATEE_REGISTRY=/var/lib/manatee/registry
+ENV HTTPD_ERROR_LOGFILE=/dev/fd/3
+ENV HTTPD_ACCESS_LOGFILE=/dev/fd/3
+ENV LOGIDSITE=0
+ENV HTPASSWD_FILE=""
+#@INJECT_USER@
+
+USER root
+
+RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
+    mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
+    mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
+    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress
+
+USER www-data
+VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
+CMD ["/bin/sh", "/run_lighttpd.sh"]
