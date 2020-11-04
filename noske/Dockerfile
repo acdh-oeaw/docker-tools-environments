@@ -45,7 +45,8 @@ HEALTHCHECK --timeout=1s \
   CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
 
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
-ENV HTTPD_LOGFILE=/dev/fd/3
+ENV HTTPD_ERROR_LOGFILE=/dev/fd/3
+ENV HTTPD_ACCESS_LOGFILE=/dev/fd/3
 ENV LOGIDSITE=0
 ENV HTPASSWD_FILE=""
 #@INJECT_USER@
