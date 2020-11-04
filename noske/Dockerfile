@@ -20,6 +20,7 @@ RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
 COPY apache2-dummy_1.0_amd64.deb /
+COPY lighttpd_1.4.55-1ubuntu2_amd64.deb /
 
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
