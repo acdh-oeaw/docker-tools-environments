@@ -33,10 +33,11 @@ COPY lighttpd.conf /etc/lighttpd/
 COPY add_auth.sh /etc/lighttpd/
 COPY run_lighttpd.sh /
 COPY run.cgi /var/www/bonito/
+COPY test-run.cgi /var/www/bonito/test/run.cgi
 EXPOSE 8080
 
 HEALTHCHECK --timeout=1s \
-  CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/run.cgi || exit 1
 
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry
 ENV HTTPD_ERROR_LOGFILE=/dev/fd/3
