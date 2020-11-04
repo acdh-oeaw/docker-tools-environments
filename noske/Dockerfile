@@ -32,6 +32,7 @@ RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packag
 COPY lighttpd.conf /etc/lighttpd/
 COPY add_auth.sh /etc/lighttpd/
 COPY run_lighttpd.sh /
+COPY run.cgi /var/www/bonito/
 EXPOSE 8080
 
 HEALTHCHECK --timeout=1s \
