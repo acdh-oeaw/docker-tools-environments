@@ -52,9 +52,9 @@ class BonitoCGI (WSEval, UserCGI):
     user_gdex_path = "" # /path/to/%s/gdex/ %s to be replaced with username
 
     # set available corpora, e.g.: corplist = ['susanne', 'bnc', 'biwec']
-    corplist = [u'susanne']
+    corplist = os.environ["CORPLIST"].split() if os.environ.get("CORPLIST") is not None else [u'susanne']
     # set default corpus
-    corpname = u'susanne'
+    corpname = os.environ["CORPLIST"].split()[0] if os.environ.get("CORPLIST") is not None else u'susanne'
     err_types_select = False
 
     def __init__ (self, user=None):

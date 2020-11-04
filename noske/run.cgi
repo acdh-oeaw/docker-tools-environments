@@ -49,9 +49,9 @@ class BonitoCGI (WSEval, UserCGI):
     gdexpath = [] # [('confname', '/path/to/gdex.conf'), ...]
 
     # set available corpora, e.g.: corplist = ['susanne', 'bnc', 'biwec']
-    corplist = [u'']
+    corplist = os.environ["CORPLIST"].split() if os.environ.get("CORPLIST") is not None else [u'susanne']
     # set default corpus
-    corpname = u''
+    corpname = os.environ["CORPLIST"].split()[0] if os.environ.get("CORPLIST") is not None else u'susanne'
     err_types_select = False
 
     helpsite = 'https://www.sketchengine.co.uk/'

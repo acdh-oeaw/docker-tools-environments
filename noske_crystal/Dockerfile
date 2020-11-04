@@ -44,11 +44,12 @@ EXPOSE 8080
 HEALTHCHECK --timeout=1s \
   CMD curl -A "healthcheck" -f http://localhost:8080/bonito/run.cgi || exit 1
 
-ENV MANATEE_REGISTRY=/var/lib/manatee/registry
-ENV HTTPD_ERROR_LOGFILE=/dev/fd/3
-ENV HTTPD_ACCESS_LOGFILE=/dev/fd/3
-ENV LOGIDSITE=0
-ENV HTPASSWD_FILE=""
+ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
+    HTTPD_ERROR_LOGFILE=/dev/fd/3 \
+    HTTPD_ACCESS_LOGFILE=/dev/fd/3 \
+    LOGIDSITE=0 \
+    HTPASSWD_FILE="" \
+    CORPLIST=""
 #@INJECT_USER@
 
 USER root
