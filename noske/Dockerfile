@@ -19,7 +19,7 @@ RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3
     wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
-COPY apache2-dummy_1.0_amd64.deb lighttpd_1.4.55-1ubuntu2_amd64.deb cronolog_1.7.2_amd64.deb /
+COPY apache2-dummy_1.0_amd64.deb lighttpd_1.4.55-1ubuntu2_amd64.deb cronolog_1.7.2_amd64.deb run_lighttpd.sh import_logs.py /
 
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
@@ -29,9 +29,7 @@ RUN locale-gen --lang en_US.UTF-8 && \
     rm /var/www/bonito/.htaccess
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init
-COPY lighttpd.conf /etc/lighttpd/
-COPY add_auth.sh /etc/lighttpd/
-COPY run_lighttpd.sh /
+COPY lighttpd.conf add_auth.sh /etc/lighttpd/
 COPY run.cgi /var/www/bonito/
 COPY test-run.cgi /var/www/bonito/test/run.cgi
 EXPOSE 8080
