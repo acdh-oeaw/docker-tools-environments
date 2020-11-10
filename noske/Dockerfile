@@ -19,8 +19,7 @@ RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3
     wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
-COPY apache2-dummy_1.0_amd64.deb /
-COPY lighttpd_1.4.55-1ubuntu2_amd64.deb /
+COPY apache2-dummy_1.0_amd64.deb lighttpd_1.4.55-1ubuntu2_amd64.deb cronolog_1.7.2_amd64.deb /
 
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
@@ -42,7 +41,7 @@ HEALTHCHECK --timeout=1s \
 
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
     HTTPD_ERROR_LOGFILE=/dev/fd/3 \
-    HTTPD_ACCESS_LOGFILE=/dev/fd/3 \
+    HTTPD_ACCESS_LOGFILE="|/usr/bin/cronolog -c -S /var/log/lighttpd/access.log /var/log/lighttpd/%Y-%m-%d-access.log" \
     LOGIDSITE=0 \
     HTPASSWD_FILE="" \
     CORPLIST=""
