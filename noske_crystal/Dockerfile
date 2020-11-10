@@ -17,7 +17,8 @@ RUN curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito
 
 # bonito-www(-open) depends on httpd. It works with lighttpd of course but the package system requires something.
 # This fake package was created using https://github.com/larsks/fakeprovide.git
-COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm /
+# cronolog is a customized version that is able to gzip older log files.
+COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm cronolog-1.7.2-105.7.x86_64.rpm run_lighttpd.sh import_logs.py /
 
 #RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
 RUN yum install -y ./* && \
@@ -34,9 +35,7 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages && \
     cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonoto.init && \
     ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito && \
     mv /var/www/crystal /var/www/crystal.init
-COPY lighttpd.conf /etc/lighttpd/
-COPY add_auth.sh /etc/lighttpd/
-COPY run_lighttpd.sh /
+COPY lighttpd.conf add_auth.sh /etc/lighttpd/
 COPY run.cgi /var/www/bonito/
 COPY test-run.cgi /var/www/test/bonito/run.cgi
 EXPOSE 8080
@@ -46,7 +45,7 @@ HEALTHCHECK --timeout=1s \
 
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
     HTTPD_ERROR_LOGFILE=/dev/fd/3 \
-    HTTPD_ACCESS_LOGFILE=/dev/fd/3 \
+    HTTPD_ACCESS_LOGFILE="|/usr/sbin/cronolog -c -S /var/log/lighttpd/access.log /var/log/lighttpd/%Y-%m-%d-access.log" \
     LOGIDSITE=0 \
     HTPASSWD_FILE="" \
     CORPLIST=""
