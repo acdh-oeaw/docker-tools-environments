@@ -6,7 +6,7 @@
     "DataDir" : "existdb5x/data",
     "LogDir" : "existdb5x/log",
     "AutodeployDir" : "existdb5x/autodeploy",
-    "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP"},
+    "Ports" :  { "Host": 0, "Guest" : 8080, "Type" : "HTTP", "ws" : "/exist/rconsole"},
     "Require" : ["10.0.0.0/8", "127.0.0.0/8", "::1"]
   }
 ]
