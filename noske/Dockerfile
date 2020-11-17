@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Omar.Siam@oeaw.ac.at
+LABEL maintainer Omar.Siam@oeaw.ac.at
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -50,7 +50,8 @@ USER root
 RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
     mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
     mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
-    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress
+    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress && \
+    mkdir -p /var/lib/manatee/data && chown www-data:www-data /var/lib/manatee/data
 
 USER www-data
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito

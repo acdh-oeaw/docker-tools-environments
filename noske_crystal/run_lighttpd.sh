@@ -5,5 +5,11 @@ fi
 if [ ! "$(ls -A /var/www/crystal)" ];
 then cp -R /var/www/crystal.init/* /var/www/crystal
 fi
+for corp in $CORPLIST
+do path=$(grep -h ^PATH $MANATEE_REGISTRY/$corp | sed -e 's/^PATH[^"]*"\(.*\)"$/\1/g')
+if [ ! -d $path ] || [ ! "$(ls -A $path)" ]
+  then mkdir -p $path; encodevert -c $corp
+  fi
+done
 exec 3>&1
 exec /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf -D

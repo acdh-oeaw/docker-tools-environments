@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Omar.Siam@oeaw.ac.at
+LABEL maintainer Omar.Siam@oeaw.ac.at
 
 RUN yum install -y epel-release && \
     yum install -y lighttpd lighttpd-fastcgi && \
@@ -57,7 +57,8 @@ RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
     mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
     mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
     mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress && \
-    mkdir -p /var/www/crystal && chown www-data:www-data /var/www/crystal
+    mkdir -p /var/www/crystal && chown www-data:www-data /var/www/crystal && \
+    mkdir -p /var/lib/manatee/data && chown www-data:www-data /var/lib/manatee/data
 
 USER www-data
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito /var/www/crystal
