@@ -35,7 +35,7 @@ Example:
 ```json
     "EnvVars": {
       "HTPASSWD_FILE": "/var/lib/bonito/htpasswd",
-      "PASSWD_REAL": "noske" 
+      "PASSWD_REALM": "noske" 
     }
 ```
  
