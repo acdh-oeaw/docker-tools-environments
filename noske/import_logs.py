@@ -397,7 +397,7 @@ class IncapsulaW3CFormat(W3cExtendedFormat):
         self.name = 'incapsula_w3c'
 
     def get(self, key):
-        value = super(IncapsulaW3CFormat, self).get(key);
+        value = super(IncapsulaW3CFormat, self).get(key)
         if key == 'status' or key == 'length':
             value = value.strip('"')
         if key == 'status' and value == '':
@@ -437,7 +437,7 @@ class AmazonCloudFrontFormat(W3cExtendedFormat):
         'x-edge-location': r'(?P<x_edge_location>".*?"|\S+)',
         'x-edge-result-type': r'(?P<x_edge_result_type>".*?"|\S+)',
         'x-edge-request-id': r'(?P<x_edge_request_id>".*?"|\S+)',
-        'x-host-header': r'(?P<x_host_header>".*?"|\S+)'
+        'x-host-header': r'(?P<host>".*?"|\S+)'
     })
 
     def __init__(self):
@@ -938,14 +938,14 @@ class Configuration:
         self.filenames = self.options.file
 
         if self.options.output:
-            sys.stdout = sys.stderr = open(self.options.output, 'a+', 1)
+            sys.stdout = sys.stderr = open(self.options.output, 'a+', 0)
 
         all_filenames = []
         for self.filename in self.filenames:
             if self.filename == '-':
                 all_filenames.append(self.filename)
             else:
-                all_filenames = all_filenames + glob.glob(self.filename)
+                all_filenames = all_filenames + sorted(glob.glob(self.filename))
         self.filenames = all_filenames
 
         # Configure logging before calling logging.{debug,info}.
@@ -2365,12 +2365,13 @@ class Parser:
                 return
             else:
                 if filename.endswith('.bz2'):
-                    open_func = bz2.BZ2File
+                    open_func = bz2.open
                 elif filename.endswith('.gz'):
                     open_func = gzip.open
                 else:
                     open_func = open
-                    file = open_func(filename, mode='r', encoding=config.options.encoding, errors="surrogateescape")
+
+                file = open_func(filename, mode='rt', encoding=config.options.encoding, errors="surrogateescape")
 
         if config.options.show_progress:
             print(('Parsing log %s...' % filename))
