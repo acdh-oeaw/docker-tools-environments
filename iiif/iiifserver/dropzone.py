@@ -76,7 +76,7 @@ while True:
                                 try:
                                         os.remove('%s.bmp' % os.path.join(DEST_FOLDER, img[0]))
                                 except:
-                                        errors.append('Can`t delete temporary ppm file "%s.ppm"' % os.path.join(DEST_FOLDER, img[0]))
+                                        errors.append('Can`t delete temporary bmp file "%s.bmp"' % os.path.join(DEST_FOLDER, img[0]))
                         else:
                                 try:
                                         os.remove('%s.tif' % os.path.join(DEST_FOLDER, img[0]))
