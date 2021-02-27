@@ -57,8 +57,8 @@ while True:
                 if (not img[0] in jp2_images) or (os.path.getmtime(DEST_FOLDER + img[0] + '.jp2') < img[1]):
                         try:
                                 if img[3] != 'image/tiff':
-                                        subprocess.call(['djpeg', '-pnm', '-outfile', '%s.ppm' % os.path.join(DEST_FOLDER, img[0]), os.path.join(SOURCE_FOLDER, img[0]) + img[2]], stderr=open(os.devnull, 'wb'))
-                                        extension = 'ppm'
+                                        subprocess.call(['djpeg', '-bmp', '-outfile', '%s.bmp' % os.path.join(DEST_FOLDER, img[0]), os.path.join(SOURCE_FOLDER, img[0]) + img[2]], stderr=open(os.devnull, 'wb'))
+                                        extension = 'bmp'
                                 else:
                                         shutil.copy(os.path.join(SOURCE_FOLDER, img[0]) + img[2], os.path.join(DEST_FOLDER, img[0]) + '.tif')
                                         extension = 'tif'
@@ -74,9 +74,9 @@ while True:
 
                         if img[3] != 'image/tiff':
                                 try:
-                                        os.remove('%s.ppm' % os.path.join(DEST_FOLDER, img[0]))
+                                        os.remove('%s.bmp' % os.path.join(DEST_FOLDER, img[0]))
                                 except:
-                                        errors.append('Can`t delete temporary ppm file "%s.ppm"' % os.path.join(DEST_FOLDER, img[0]))
+                                        errors.append('Can`t delete temporary bmp file "%s.bmp"' % os.path.join(DEST_FOLDER, img[0]))
                         else:
                                 try:
                                         os.remove('%s.tif' % os.path.join(DEST_FOLDER, img[0]))
