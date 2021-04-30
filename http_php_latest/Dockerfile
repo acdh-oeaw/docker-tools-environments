@@ -1,5 +1,5 @@
-# Image for serving HTTP/PHP environment using the ubuntu:rolling docker hub image
-FROM ubuntu:rolling
+# Image for serving HTTP/PHP environment using the ubuntu:latest docker hub image
+FROM ubuntu:latest
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
