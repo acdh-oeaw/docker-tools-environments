@@ -1,7 +1,5 @@
-# Image for serving HTTP/PHP environment:
-# Apache is running using the ITK module so
-# --cap-add=SYS_NICE --cap-add=DAC_READ_SEARCH docker privileges are required
-FROM ubuntu:latest
+# Image for serving HTTP/PHP environment using the ubuntu:rolling docker hub image
+FROM ubuntu:rolling
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
