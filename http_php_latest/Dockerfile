@@ -32,8 +32,8 @@ RUN locale-gen en_US.UTF-8 && \
     chown www-data:www-data /var/www/exec /var/www/config && \
     curl -sS https://getcomposer.org/installer -o composer-setup.php && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
-    rm composer-setup.php
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+    rm composer-setup.php && \
+    echo '[supervisord]\nnodaemon=true\n\n[program:apache2]\ncommand=/bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2 -D FOREGROUND"' > /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
 EXPOSE 80
 #@INJECT_USER@
