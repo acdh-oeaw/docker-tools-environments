@@ -3,18 +3,19 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
 COPY exist-build-config.diff 0001-Force-update-RestXQ-for-Chrome.patch /opt/
-RUN cd /opt/exist && \
+RUN yum -y install maven ant && \
+    cd /opt/exist && \
     git checkout eXist-4.3.1 &&\
     git apply ../0001-Force-update-RestXQ-for-Chrome.patch &&\
-    patch -p1 < ../exist-build-config.diff && ./build.sh
-# remove unsupported and/or unneeded packages not needed for running existdb
-RUN apt remove -y --purge links supervisor ant maven openjdk-8-jdk &&\
-    apt autoremove -y --purge
+    patch -p1 < ../exist-build-config.diff && ./build.sh && \
+    yum -y remove ant maven && yum -y autoremove && \
+    rm -rf ~/.m2 ~/.ivy2
+COPY autodeploy/* /opt/exist/autodeploy/
 # customize config
 RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\
     mkdir -p /data &&\
-    mv /opt/exist/autodeploy /opt/exist/autodeploy.init &&\
+    cp -r /opt/exist/autodeploy /opt/exist/autodeploy.init &&\
     rm -rf tools/yajsw/logs &&\
     ln -s /var/log/exist tools/yajsw/logs &&\
     rm -rf tools/jetty/logs &&\
@@ -28,6 +29,7 @@ RUN cd /opt/exist && \
     rm -rf /opt/exist/tools/wrapper
 
 COPY wrapper.sh /opt/exist/tools/yajsw/bin/wrapper.sh
+COPY wrapper.conf /opt/exist/tools/yajsw/conf/
 RUN chmod a+x /opt/exist/tools/yajsw/bin/wrapper.sh
 
 #@INJECT_USER@
