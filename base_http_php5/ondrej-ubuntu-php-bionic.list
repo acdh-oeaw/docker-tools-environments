@@ -1,0 +1,4 @@
+deb http://ppa.launchpad.net/ondrej/apache2/ubuntu focal main
+# deb-src http://ppa.launchpad.net/apache2/php/ubuntu focal main
+deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+# deb-src http://ppa.launchpad.net/ondrej/php/ubuntu focal main
