@@ -33,15 +33,24 @@ index 0e85230..d9a8aed 100644
 +++ b/extensions/build.properties
 @@ -97,8 +97,8 @@ include.module.context = false
  include.module.counter = true
- 
+
  # Contextual Query Parser (CQL) module
 -include.module.cqlparser = false
 -include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.10/cql-java-1.10.jar
-+include.module.cqlparser = true 
-+include.module.cqlparser.url = http://maven.indexdata.com/org/z3950/zing/cql-java/1.12/cql-java-1.12.jar
- 
++include.module.cqlparser = true
++include.module.cqlparser.url = https://maven.indexdata.com/org/z3950/zing/cql-java/1.13/cql-java-1.13.jar
+
  # Date/DateTime/Time utility functions module
  include.module.datetime = true
+@@ -156,7 +156,7 @@ include.module.xmpp.url = http://www.igniterealtime.org/downloadServlet?filename
+
+ # XSL FO transformations (Uses Apache FOP)
+ include.module.xslfo = true
+-include.module.xslfo.url = http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-1.1-bin.zip
++include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip
+
+ # Module to execute external processes (dba users only)
+ include.module.process = true
 diff --git a/extensions/modules/build.xml b/extensions/modules/build.xml
 index d245634..5551b94 100644
 --- a/extensions/modules/build.xml
