@@ -14,4 +14,8 @@ RUN yum install -y ant maven git patch && \
 ENV EXIST_HOME /opt/exist
 ENV PATH $PATH:/opt/exist/bin
 
+# docker tools assumes these exist so provide wrappers.
+COPY useradd.sh /usr/bin/useradd
+COPY groupadd.sh /usr/bin/groupadd
+
  # not usable on its own! Use existdb22 or existdb30
