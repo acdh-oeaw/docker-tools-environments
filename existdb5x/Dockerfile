@@ -1,4 +1,4 @@
-FROM existdb/existdb:5.2.0
+FROM acdhch/existdb:5.3.0-java11-ShenGC
 LABEL maintainer="Omar Siam <omar.siam@oeaw.ac.at>"
 
 COPY busybox /bin/sh
@@ -17,12 +17,9 @@ RUN ln -sf /usr/bin/busybox /bin/sh && cd /usr/bin && ln -sf busybox sh && ln -s
 ENV JAVA_TOOL_OPTIONS \
     $JAVA_TOOL_OPTIONS \
     -Dorg.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT \
-    -Dorg.exist.webdav.GET_METHOD_XML_SIZE=EXACT \
-    -XX:+UseContainerSupport \
-    -XX:MaxHeapFreeRatio=20 \
-    -XX:MinHeapFreeRatio=10 \
-    -XX:GCTimeRatio=20
-
+    -Dorg.exist.webdav.GET_METHOD_XML_SIZE=EXACT
+    
 #@INJECT_USER@
+RUN rm -f /bin/sh /usr/bin/busybox /usr/bin/sh /usr/bin/rm /usr/bin/ln /usr/bin/useradd /usr/bin/groupadd /bin/bash
 
 VOLUME /exist/data /exist/autodeploy /exist/logs
