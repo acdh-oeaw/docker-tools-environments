@@ -3,12 +3,13 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
 COPY build-config.diff /opt/exist-build-config.diff
-RUN cd /opt/exist && \
+RUN yum -y install maven ant && \
+    cd /opt/exist && \
     git checkout eXist-2.2 && \
-    patch -p1 < ../exist-build-config.diff && ./build.sh
-# remove unsupported and/or unneeded packages not needed for running existdb
-RUN apt remove -y --purge links supervisor ant maven openjdk-8-jdk &&\
-    apt autoremove -y --purge
+    patch -p1 < ../exist-build-config.diff && ./build.sh && \
+    yum -y remove ant maven && yum -y autoremove && \
+    rm -rf ~/.m2 ~/.ivy2
+COPY autodeploy/* /opt/exist/autodeploy/
 # customize config
 RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\
@@ -23,10 +24,11 @@ RUN cd /opt/exist && \
     mkdir -p /opt/exist/tools/jetty/tmp &&\
     chmod a+rwx /opt/exist/tools/jetty/tmp &&\
     chgrp users /opt/exist/tools/jetty/tmp &&\
-   # git error: wrapper is not executable
+    # git error: wrapper is not executable
     chmod a+x /opt/exist/tools/wrapper/bin/wrapper-linux-x86-64
 
 COPY wrapper.sh /opt/exist/tools/wrapper/bin/wrapper.sh
+COPY wrapper.conf /opt/exist/tools/wrapper/conf/
 RUN chmod a+x /opt/exist/tools/wrapper/bin/wrapper.sh
 
 #@INJECT_USER@
