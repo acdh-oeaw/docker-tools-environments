@@ -3,9 +3,7 @@ MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
 COPY build-config.diff /opt/exist-build-config.diff
-RUN export http_proxy=192.168.1.250:8080 && \
-    export https_proxy=192.168.1.250:8080 && \
-    yum -y install maven ant && \
+RUN yum -y install maven ant && \
     cd /opt/exist && \
     git checkout eXist-3.0.RC1 &&\
     patch -p1 < ../exist-build-config.diff && ./build.sh && \
