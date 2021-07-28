@@ -51,6 +51,10 @@ ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
     CORPLIST=""
 #@INJECT_USER@
 
+## install some missing stuff: mandatory: which / comfort: less vi
+RUN yum install -y which && \
+    yum install -y less vim 
+
 USER root
 
 RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
@@ -61,5 +65,6 @@ RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
     mkdir -p /var/lib/manatee/data && chown www-data:www-data /var/lib/manatee/data
 
 USER www-data
+WORKDIR /home/user
 VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito /var/www/crystal
 CMD ["/bin/sh", "/run_lighttpd.sh"]
