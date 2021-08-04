@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Omar.Siam@oeaw.ac.at
+LABEL maintainer Omar.Siam@oeaw.ac.at
 
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list &&\
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -11,32 +11,48 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils wget python \
     lighttpd bison make parallel && \
     apt-get clean
 
-## 2020-10-27 : because of ongoing certificate-problems we use "wget --no-check-certificate"
-RUN wget --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
-    wget  --no-check-certificate https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
+RUN wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open-www_3.116.13-1ubuntu1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/bonito-open/bonito-open_3.116.13-1ubuntu1_all.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-python3_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open_2.167.8-1ubuntu1_amd64.deb && \
+    wget https://corpora.fi.muni.cz/noske/deb/1804/python-signalfd/python-signalfd_0.1-1ubuntu1_amd64.deb
 
 # bonito-www(-open) depends on apache2. It works with lighttpd of course but the package system requires something.
-COPY apache2-dummy_1.0_amd64.deb /
+COPY apache2-dummy_1.0_amd64.deb lighttpd_1.4.55-1ubuntu2_amd64.deb cronolog_1.7.2_amd64.deb run_lighttpd.sh import_logs.py /
 
 RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
     dpkg --install *.deb && \
     rm *.deb
 
 RUN locale-gen --lang en_US.UTF-8 && \
-    rm /var/www/bonito/.htaccess && \
-    mkdir -p /tmp/lighttpd && chmod a+rwx /tmp/lighttpd && chmod a+rwx /var/log/lighttpd && \
-    mkdir -p /var/lib/bonito/jobs && chmod a+rwx /var/lib/bonito/jobs &&\
-    mkdir -p /var/lib/bonito/cache && chmod a+rwx /var/lib/bonito/cache
-COPY lighttpd.conf /etc/lighttpd/
+    rm /var/www/bonito/.htaccess
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
 RUN cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/dist-packages/bonito.init
-COPY run_lighttpd.sh /
-VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
-ENV MANATEE_REGISTRY=/var/lib/manatee/registry
+COPY lighttpd.conf add_auth.sh /etc/lighttpd/
+COPY run.cgi /var/www/bonito/
+COPY test-run.cgi /var/www/bonito/test/run.cgi
 EXPOSE 8080
-CMD ["/bin/sh", "/run_lighttpd.sh"] 
 
+HEALTHCHECK --timeout=1s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/run.cgi || exit 1
+
+ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
+    HTTPD_ERROR_LOGFILE=/dev/fd/3 \
+    HTTPD_ACCESS_LOGFILE="|/usr/bin/cronolog -c -S /var/log/lighttpd/access.log /var/log/lighttpd/%Y-%m-%d-access.log" \
+    LOGIDSITE=0 \
+    HTPASSWD_FILE="" \
+    CORPLIST=""
+#@INJECT_USER@
+
+USER root
+
+RUN mkdir -p /tmp/lighttpd && chown www-data:www-data /tmp/lighttpd && \
+    mkdir -p /var/lib/bonito/jobs && chown www-data:www-data /var/lib/bonito/jobs && \
+    mkdir -p /var/lib/bonito/cache && chown www-data:www-data /var/lib/bonito/cache && \
+    mkdir -p /var/cache/lighttpd/compress && chown www-data:www-data /var/cache/lighttpd/compress && \
+    mkdir -p /var/lib/manatee/data && chown www-data:www-data /var/lib/manatee/data
+
+USER www-data
+VOLUME /var/lib/manatee/registry /var/log/lighttpd /var/lib/manatee/data /var/lib/bonito
+CMD ["/bin/sh", "/run_lighttpd.sh"]

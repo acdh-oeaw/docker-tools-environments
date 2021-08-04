@@ -1,4 +1,4 @@
-A Debian container containing NoSkE 3.x.y
+A Centos 7 container containing NoSkE 4
 ================================
 
 Example corpus
@@ -6,8 +6,8 @@ Example corpus
 To get the example susanne corpus download and install it as root in the container
 ```bash
 cd ~root
-wget https://corpora.fi.muni.cz/noske/deb/1804/manatee-open/manatee-open-susanne_2.167.8-1ubuntu1_amd64.deb`
-dpkg -i *.deb
+curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-susanne-2.167.10-1.el7.noarch.rpm
+rpm -i *.rpm
 ```
 
 Corpus made up of your own data
