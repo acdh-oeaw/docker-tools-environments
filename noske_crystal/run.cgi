@@ -27,7 +27,10 @@ elif  os.environ.get("REQUEST_SCHEME") is not None:
     request_scheme = os.environ.get("REQUEST_SCHEME")
 else:
     request_scheme = "http"
-print('Access-Control-Allow-Origin: '+request_scheme+'://'+os.environ["HTTP_HOST"])
+if os.environ.get("HTTP_ORIGIN") is not None:
+  print('Access-Control-Allow-Origin: '+os.environ["HTTP_ORIGIN"])
+else:
+  print('Access-Control-Allow-Origin: '+request_scheme+'://'+os.environ["HTTP_HOST"])
 print('Access-Control-Allow-Credentials: true')
 print('Access-Control-Allow-Headers: content-type')
 
