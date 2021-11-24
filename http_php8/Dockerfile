@@ -28,8 +28,9 @@ RUN locale-gen en_US.UTF-8 && \
     sed -i -e 's/StartServers.*/StartServers 1/g' /etc/apache2/mods-enabled/mpm_prefork.conf && \
     sed -i -e 's/MinSpareServers.*/MinSpareServers 1/g' /etc/apache2/mods-enabled/mpm_prefork.conf && \
     sed -i -e 's/upload_max_filesize.*/upload_max_filesize = 64M/' -e 's/post_max_size.*/post_max_size = 64M/' /etc/php/*/apache2/php.ini && \
-    mkdir -p /var/www/exec /var/www/config &&\
+    mkdir -p /var/www/exec /var/www/config && \
     chown www-data:www-data /var/www/exec /var/www/config && \
+    rm -fR /var/www/html/* && \
     curl -sS https://getcomposer.org/installer -o composer-setup.php && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     rm composer-setup.php && \
