@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build images
+      - name: build php image
         run: |
           docker build --rm -t acdhch/php:8 http_php8
       - name: authorize against docker hub
@@ -14,7 +14,21 @@ jobs:
         with:
           username: zozlak
           password: ${{ secrets.DOCKERHUBTOKEN }}
-      - name: push to docker hub
+      - name: push to docker hub php
         run: |
           docker push acdhch/php:8
+      - name: build noske:4.24.6-2.167.10-open image
+        run: |
+          docker build --rm -t acdhch/noske:4.24.6-2.167.10-open noske_crystal
+      - name: push to docker hub noske:4.24.6-2.167.10-open
+        run: |
+          docker push acdhch/noske:4.24.6-2.167.10-open
+      - name: build noske:3.116.13-2.167.8-open-ubuntu image
+        run: |
+          docker build --rm -t acdhch/noske:3.116.13-2.167.8-open-ubuntu noske
+      - name: push to docker hub
+        run: |
+          docker push acdhch/noske:3.116.13-2.167.8-open-ubuntu
+          docker tag acdhch/noske:3.116.13-2.167.8-open-ubuntu acdhch/noske:3.116.13-2.167.8-open
+          docker push acdhch/noske:3.116.13-2.167.8-open
 
