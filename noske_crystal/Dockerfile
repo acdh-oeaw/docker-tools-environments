@@ -1,10 +1,6 @@
 FROM centos:7
 LABEL maintainer Omar.Siam@oeaw.ac.at
 
-RUN yum install -y epel-release && \
-    yum install -y lighttpd lighttpd-fastcgi && \
-    yum clean all
-
 RUN curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito4-open-4.24.6-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.167.10-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python-2.167.10-1.el7.x86_64.rpm && \
@@ -18,26 +14,29 @@ RUN curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito
 # bonito-www(-open) depends on httpd. It works with lighttpd of course but the package system requires something.
 # This fake package was created using https://github.com/larsks/fakeprovide.git
 # cronolog is a customized version that is able to gzip older log files.
-COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm cronolog-1.7.2-105.7.x86_64.rpm run_lighttpd.sh import_logs.py /
+COPY fakeprovide-httpd-20201030141639-1.el7.noarch.rpm cronolog-1.7.2-105.7.x86_64.rpm run_lighttpd.sh import_logs.py lighttpd.conf add_auth.sh run.cgi test-run.cgi /
 
-#RUN ln -s /bin/true /usr/sbin/a2enmod && ln -s /bin/true /etc/init.d/apache2 && \
-RUN yum install -y ./* && \
-    rm *.rpm
-
-RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \
-    mkdir -p /var/www/test/bonito/ && \
-    usermod -l www-data lighttpd && groupmod -n www-data lighttpd
+# install some missing stuff: mandatory: which / comfort: less, vi, two perl modules
 # for UI-customization: /usr/lib/python2.7/dist-packages/bonito will be mounted. Save it away.
-# This was am ubuntu based image which has it's python packages in dist-packages
+# This was an ubuntu based image which has it's python packages in dist-packages
 # The customized directory is mounted there hence it hast to be replicated here
-RUN mkdir -p /usr/lib/python2.7/dist-packages && \
+RUN yum install -y epel-release && \
+    yum update -y && \
+    yum install -y ./* && \
+    yum install -y lighttpd lighttpd-fastcgi which less vim perl-XML-LibXML perl-Readonly && \
+    yum clean all && \
+    localedef -c -i en_US -f UTF-8 en_US.UTF-8; echo returned $? && \    
+    rm *.rpm && \
+    mkdir -p /var/www/test/bonito/ && \
+    usermod -l www-data lighttpd && groupmod -n www-data lighttpd && \
+    mv /var/www/crystal /var/www/crystal.init && \
+    mkdir -p /usr/lib/python2.7/dist-packages && \
     mv /usr/lib/python2.7/site-packages/bonito /usr/lib/python2.7/dist-packages && \
     cp -a /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonoto.init && \
     ln -s /usr/lib/python2.7/dist-packages/bonito /usr/lib/python2.7/site-packages/bonito && \
-    mv /var/www/crystal /var/www/crystal.init
-COPY lighttpd.conf add_auth.sh /etc/lighttpd/
-COPY run.cgi /var/www/bonito/
-COPY test-run.cgi /var/www/test/bonito/run.cgi
+    mv lighttpd.conf add_auth.sh /etc/lighttpd/ && \
+    mv run.cgi /var/www/bonito/ && \
+    mv test-run.cgi /var/www/test/bonito/run.cgi
 EXPOSE 8080
 
 HEALTHCHECK --timeout=1s \
@@ -50,10 +49,6 @@ ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
     HTPASSWD_FILE="" \
     CORPLIST=""
 #@INJECT_USER@
-
-## install some missing stuff: mandatory: which / comfort: less vi
-RUN yum install -y which && \
-    yum install -y less vim 
 
 USER root
 
