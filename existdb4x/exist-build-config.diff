@@ -73,18 +73,30 @@ index c255ebb..ab702f1 100644
              <exclude name="org/exist/xquery/modules/example/**" unless="${include.module.example}"/>
              <exclude name="org/exist/xquery/modules/file/**" unless="${include.module.file}"/>
 diff --git a/log4j2.xml b/log4j2.xml
-index 5238d11..8e0d45b 100644
+index 227627de40..8751c023a0 100644
 --- a/log4j2.xml
 +++ b/log4j2.xml
-@@ -1,7 +1,7 @@
+@@ -1,17 +1,17 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
      <Properties>
 -        <Property name="logs">${log4j:configParentLocation}/webapp/WEB-INF/logs</Property>
-+        <Property name="logs">$${env:EXIST_HOME}/webapp/WEB-INF/logs</Property>
++        <Property name="logs">${env:EXIST_HOME}/webapp/WEB-INF/logs</Property>
          <Property name="rollover.max.size">10MB</Property>
          <Property name="rollover.max">14</Property>
          <Property name="rollover.file.pattern">%d{yyyyMMddHHmmss}</Property>
+-        <Property name="exist.file.pattern">%d [%t] %-5p (%F [%M]:%L) - %m %n</Property>
++        <Property name="exist.file.pattern">%d [%t] %-5p (%F [%M]:%L) - %m{noLookups} %n</Property>
+     </Properties>
+     
+     <Appenders>
+
+         <Console name="STDOUT">
+-            <PatternLayout pattern="%d{DATE} [%t] %-5p (%F [%M]:%L) - %m %n"/>
++            <PatternLayout pattern="%d{DATE} [%t] %-5p (%F [%M]:%L) - %m{noLookups} %n"/>
+         </Console>
+
+         <RollingRandomAccessFile name="exist.core" filePattern="${logs}/exist.${rollover.file.pattern}.log.gz" fileName="${logs}/exist.log">
 diff --git a/webapp/WEB-INF/web.xml.tmpl b/webapp/WEB-INF/web.xml.tmpl
 index 898ead5..06b9951 100644
 --- a/webapp/WEB-INF/web.xml.tmpl
