@@ -88,7 +88,7 @@ index 227627de40..8751c023a0 100644
 -        <Property name="exist.file.pattern">%d [%t] %-5p (%F [%M]:%L) - %m %n</Property>
 +        <Property name="exist.file.pattern">%d [%t] %-5p (%F [%M]:%L) - %m{noLookups} %n</Property>
      </Properties>
-     
+
      <Appenders>
 
          <Console name="STDOUT">
