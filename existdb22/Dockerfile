@@ -2,14 +2,15 @@ FROM acdh/base_existdb
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
-COPY build-config.diff /opt/exist-build-config.diff
+COPY build-config.diff 0001-Replace-ivy-2.3.0-with-ivy-2.5.0.patch /opt/
+COPY autodeploy/* /opt/exist/autodeploy/
 RUN yum -y install maven ant && \
     cd /opt/exist && \
     git checkout eXist-2.2 && \
-    patch -p1 < ../exist-build-config.diff && ./build.sh && \
+    git apply ../0001-Replace-ivy-2.3.0-with-ivy-2.5.0.patch &&\
+    patch -p1 < ../build-config.diff && ./build.sh && \
     yum -y remove ant maven && yum -y autoremove && \
     rm -rf ~/.m2 ~/.ivy2
-COPY autodeploy/* /opt/exist/autodeploy/
 # customize config
 RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\

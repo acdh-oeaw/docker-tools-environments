@@ -60,3 +60,16 @@ index d245634..5551b94 100644
              <exclude name="org/exist/xquery/modules/datetime/**" unless="${include.module.datetime}"/>
              <exclude name="org/exist/xquery/modules/example/**" unless="${include.module.example}"/>
              <exclude name="org/exist/xquery/modules/file/**" unless="${include.module.file}"/>
+diff --git a/extensions/modules/ivy.xml b/extensions/modules/ivy.xml
+index b02259a4ff..890d48c919 100644
+--- a/extensions/modules/ivy.xml
++++ b/extensions/modules/ivy.xml
+@@ -7,6 +7,8 @@
+ <ivy-module version="2.0">
+     <info organisation="org.exist.xquery.modules" module="extensions-modules"/>
+     <dependencies>
++        <dependency org="junit" name="junit" rev="4.11"/>
++        <!-- net.sourceforge.cssparser will automatically pull in junit 4.4 and crash the build process -->
+         <dependency org="net.sourceforge.cssparser" name="cssparser" rev="0.9.5" conf="*->*,!sources,!javadoc"/>
+
+         <!-- <dependency org="org.jfree" name="jfreechart" rev="1.0.14" conf="*->*,!sources,!javadoc">
