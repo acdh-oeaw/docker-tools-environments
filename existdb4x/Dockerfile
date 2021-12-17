@@ -2,12 +2,13 @@ FROM acdh/base_existdb
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
-COPY exist-build-config.diff 0001-Force-update-RestXQ-for-Chrome.patch 0001-Update-log4j-Log4Shell-fix.patch /opt/
+COPY exist-build-config.diff 0001-Force-update-RestXQ-for-Chrome.patch 0002-Update-log4j-Log4Shell-fix.patch 0003-Update-the-1.2-api-translate-layer-also.patch /opt/
 RUN yum -y install maven ant && \
     cd /opt/exist && \
     git checkout eXist-4.3.1 &&\
     git apply ../0001-Force-update-RestXQ-for-Chrome.patch &&\
-    git apply ../0001-Update-log4j-Log4Shell-fix.patch &&\
+    git apply ../0002-Update-log4j-Log4Shell-fix.patch &&\
+    git apply ../0003-Update-the-1.2-api-translate-layer-also.patch &&\
     patch -l -p1 < ../exist-build-config.diff && ./build.sh && \
     yum -y remove ant maven && yum -y autoremove && \
     rm -rf ~/.m2 ~/.ivy2
