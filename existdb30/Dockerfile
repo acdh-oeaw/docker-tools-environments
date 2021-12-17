@@ -2,11 +2,12 @@ FROM acdh/base_existdb
 MAINTAINER Omar Siam <omar.siam@oeaw.ac.at>
 
 # Inject config, fix problems
-COPY build-config.diff 0001-Update-log4j-Log4Shell-fix.patch /opt/
+COPY build-config.diff 0001-Update-log4j-Log4Shell-fix.patch 0002-Update-the-1.2-api-translate-layer-also.patch /opt/
 RUN yum -y install maven ant && \
     cd /opt/exist && \
     git checkout eXist-3.0.RC1 &&\
     git apply ../0001-Update-log4j-Log4Shell-fix.patch &&\
+    git apply ../0002-Update-the-1.2-api-translate-layer-also.patch &&\
     patch -l -p1 < ../build-config.diff && ./build.sh && \
     yum -y remove ant maven && yum -y autoremove && \
     rm -rf ~/.m2 ~/.ivy2
