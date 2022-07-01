@@ -1,5 +1,5 @@
-Container image providing the NoSketchEngine 5
-==============================================
+Container image providing the NoSketchEngine
+=======================================
 
 ![NoSketchEngine](https://nlp.fi.muni.cz/trac/noske/raw-attachment/wiki/WikiStart/NoSkE_logo.png)
 
@@ -18,11 +18,11 @@ The list of the corpora that should be compiled on startup is supplied using `CO
 You usually mount them into the container like
 
 ```powershell
-docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals -v Q:\path\to\your\configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus registry.gitlab.com/acdh-oeaw/docker-tools-environments-priv/acdhch/noske:5.52.9-2.201.2-open
+docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals -v Q:\path\to\your\configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus  acdhch/noske:5.57.6-2.208-open
 ```
 or on Linux/MacOS
 ```bash
-docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals -v $(pwd)/configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus registry.gitlab.com/acdh-oeaw/docker-tools-environments-priv/acdhch/noske:5.52.9-2.201.2-open
+docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals -v $(pwd)/configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus acdhch/noske:5.57.6-2.208-open
 ```
 
 On Kubernetes you can use a Persistent Volume Claim for the verticals and a config map for the configuration/registry for example.
@@ -54,11 +54,38 @@ If you want to define where to put log files you can set two environment variabl
 
 Note that `/dev/stdout` and `/dev/stderr` do not work. Something similar to /dev/stdout is the default for the access log.
 
-Authentication:
+Authentication
+---------------------
 
-If you need authentication you can configure BASIC authentication by providing/mounting a htpasswd file and these two environment variables:
+If you need authentication you can configure BASIC authentication by creating first and then mounting a htpasswd file.
+These two environment variables need to be set:
 * `HTPASSWD_FILE`:  where lighttpd will find that file. For example`/var/lib/bonito/htpasswd`
 * `PASSWD_REALM`: Something that identifies this instance (will show in the password prompt of browsers)
+
+If you enable authentication then every user can have their own settings for the UI.
+Also this enables users to create their own private subcorpora in the UI. These have to be saved somewhere so two additional directories need to be mounted to the container:
+
+```powershell
+docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals `
+                                 -v Q:\path\to\your\configuration-files:/var/lib/manatee/registry `
+                                 -v Q:\path\to\your\htpasswd:/var/lib/bonito/htpasswd `
+                                 -v Q:\path\to\your\users-subcorpora:/var/lib/bonito/subcorp `
+                                 -v Q:\path\to\your\users-options:/var/lib/bonito/options `                                
+                                 -p 8080:8080 -e CORPLIST=my_corpus `
+                                 -e HTPASSWD_FILE=/var/lib/bonito/htpasswd -e PASSWD_REALM=my_noske `
+                                 acdhch/noske:5.57.6-2.208-open
+```
+or on Linux/MacOS
+```bash
+docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals \
+                                 -v $(pwd)/configuration-files:/var/lib/manatee/registry \
+                                 -v $(pwd)/htpasswd:/var/lib/bonito/htpasswd \
+                                 -v $(pwd)/users-subcorpora:/var/lib/bonito/subcorp \
+                                 -v $(pwd)/users-options:/var/lib/bonito/options \
+                                 -p 8080:8080 -e CORPLIST=my_corpus \
+                                 -e HTPASSWD_FILE=/var/lib/bonito/htpasswd -e PASSWD_REALM=my_noske \
+                                  acdhch/noske:5.57.6-2.208-open
+```
 
 CORS
 -------
@@ -78,7 +105,7 @@ Sources
 -----------
 
 The sources used to build this container are available in the https://github.com/acdh-oeaw/docker-tools-environments repository.
-* for the current 5.x  version with the crystal user interface see the [noske-crystal](https://gitlab.com/acdh-oeaw/docker-tools-environments-priv/-/tree/master/noske_crystal) subdirectory
+* for the current 5.x  version with the crystal user interface see the [noske-crystal](https://github.com/acdh-oeaw/docker-tools-environments/tree/master/noske_crystal) subdirectory
 * for the older 3.x versions with the classic bonito web interface see the [noske](https://github.com/acdh-oeaw/docker-tools-environments/tree/master/noske) subdirectory
 
 The Dockerfile just automates installing dependencies and downloading of the official Centos 7 or Ubuntu based packages.
