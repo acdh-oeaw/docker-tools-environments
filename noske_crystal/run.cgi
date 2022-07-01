@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- Python -*-
 # Copyright (c) 2003-2020  Pavel Rychly, Vojtech Kovar, Milos Jakubicek,
 #                          Vit Baisa
@@ -6,8 +6,8 @@
 import cgitb; cgitb.enable()
 
 import sys, os
-if '/usr/lib/python2.7/site-packages/bonito' not in sys.path:
-    sys.path.insert (0, '/usr/lib/python2.7/site-packages/bonito')
+if '/usr/lib/python3.6/site-packages/bonito' not in sys.path:
+    sys.path.insert (0, '/usr/lib/python3.6/site-packages/bonito')
 
 try:
     from wseval import WSEval
@@ -76,7 +76,7 @@ class BonitoCGI (WSEval, UserCGI):
 if __name__ == '__main__':
     # use run.cgi <url> <username> for debugging
     if len(sys.argv) > 1:
-        from urlparse import urlsplit
+        from urllib.parse import urlsplit
         us = urlsplit(sys.argv[1])
         os.environ['REQUEST_METHOD'] = 'GET'
         os.environ['REQUEST_URI'] = sys.argv[1]
@@ -86,18 +86,18 @@ if __name__ == '__main__':
         username = sys.argv[2]
     else:
         username = None
-    if not os.environ.has_key ('MANATEE_REGISTRY'):
+    if 'MANATEE_REGISTRY' not in os.environ:
         os.environ['MANATEE_REGISTRY'] = '/var/lib/manatee/registry'
-    if ";prof=" in os.environ['REQUEST_URI'] or "&prof=" in os.environ['REQUEST_URI']:
+    if ";prof=" in os.environ['QUERY_STRING'] or "&prof=" in os.environ['QUERY_STRING']:
         import cProfile, pstats, tempfile
         proffile = tempfile.NamedTemporaryFile()
         cProfile.run('''BonitoCGI().run_unprotected (selectorname="corpname",
                         outf=open(os.devnull, "w"))''', proffile.name)
         profstats = pstats.Stats(proffile.name)
-        print "<pre>"
+        print("<pre>")
         profstats.sort_stats('time','calls').print_stats(50)
         profstats.sort_stats('cumulative').print_stats(50)
-        print "</pre>"
+        print("</pre>")
     else:
         BonitoCGI(user=username).run_unprotected (selectorname='corpname')
 

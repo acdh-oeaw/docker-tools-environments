@@ -1,7 +1,6 @@
-#!/usr/bin/python
-from __future__ import print_function
-
+#!/usr/bin/python3
 import os
+import locale
 
 if os.environ.get("HTTP_FRONT_END_HTTPS") == "on":
     request_scheme = "https"
@@ -14,5 +13,9 @@ print("<html><head></head><body>")
 print("<font size=+1>Environment</font></br>")
 for param in os.environ.keys():
    print("<b>%20s</b>: %s</br>" % (param, os.environ[param]))
-print("</br>Access-Control-Allow-Origin: "+request_scheme+'://'+os.environ["HTTP_HOST"])
+if os.environ.get("HTTP_ORIGIN") is not None:
+  print('Access-Control-Allow-Origin: '+os.environ["HTTP_ORIGIN"]+'</br>')
+else:
+  print('Access-Control-Allow-Origin: '+request_scheme+'://'+os.environ["HTTP_HOST"]+'</br>')
+print('Preferred encoding: '+locale.getpreferredencoding(False))
 print("</body></html>")
