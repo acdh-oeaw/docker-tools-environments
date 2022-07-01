@@ -1,5 +1,5 @@
 # Image for serving HTTP/PHP environment using the ubuntu:latest docker hub image
-FROM ubuntu:latest
+FROM ubuntu:focal
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
