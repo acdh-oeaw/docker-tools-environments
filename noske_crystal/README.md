@@ -92,6 +92,11 @@ CORS
 
 Bonito now is an API only. This container is set up in a way that favours API access over CORS security. It mirrors every `Origin` request header back as `Access-Control-Allow-Origin` header in the response.
 
+Similar Projects
+----------------------
+
+A container based on Debian with NoSkE built from its source is available from [ELTE-DH/NoSketch-Engine-Docker](https://hub.docker.com/r/eltedh/nosketch-engine)
+
 Credits
 ----------
 
