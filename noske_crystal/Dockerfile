@@ -28,7 +28,7 @@ RUN cd /rpms && \
     yum install -y epel-release && \
     yum update -y && \
     yum install -y lighttpd lighttpd-fastcgi python36-lxml && \
-    mv /rpms/manatee-open-susanne-2.208-1.el7.noarch.rpm /root && \
+    mv /rpms/manatee-open-susanne-2.214.1-1.el7.noarch.rpm /root && \
     yum install -y ./rpms/* && \
     mv /rpms/run_lighttpd.sh /rpms/import_logs.py / && \
     mv /rpms/lighttpd.conf /rpms/add_auth.sh /etc/lighttpd/ && \
