@@ -104,7 +104,7 @@ RYCHLÝ, Pavel. Manatee/Bonito-A Modular Corpus Manager. In: RASLAN. 2007. p. 65
 
 KILGARRIFF, Adam, et al. The Sketch Engine: Ten Years on. Lexicography, 2014, 1.1: 7-36.
 
-We would like to thank everyone that made these remarkable peace of software possible.
+We would like to thank everyone that made these remarkable piece of software possible.
 
 Sources
 -----------
