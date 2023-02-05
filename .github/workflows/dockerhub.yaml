@@ -5,11 +5,11 @@ jobs:
   dockerhub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: authorize against docker hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
-          username: zozlak
+          username: acdhtech
           password: ${{ secrets.DOCKERHUBTOKEN }}
       - name: build php image
         run: |
