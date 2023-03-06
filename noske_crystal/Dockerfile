@@ -22,7 +22,7 @@ RUN cd /rpms && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.214.1-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.214.1-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-susanne-2.214.1-1.el7.noarch.rpm && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.129.1-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.130.1-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/gdex/gdex-4.12-1.el7.noarch.rpm && \
     cd / && \
     yum install -y epel-release && \
