@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:11
+FROM azul/zulu-openjdk:11.0.17
 LABEL maintainer Omar Siam <omar.siam@oeaw.ac.at>
 
 RUN apt update && apt install -y git
