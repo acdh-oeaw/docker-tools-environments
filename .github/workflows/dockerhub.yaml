@@ -19,10 +19,10 @@ jobs:
           docker push acdhch/php:8
       - name: build noske:5.58.1-2.214.1-open image
         run: |
-          docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/noske:5.58.1-2.214.1-open noske_crystal
-      - name: push to docker hub noske:5.58.1-2.214.1-open
+          docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/noske:5.63.9-2.223.6-open noske_crystal
+      - name: push to docker hub noske:5.63.9-2.223.6-open
         run: |
-          docker push acdhch/noske:5.58.1-2.214.1-open
+          docker push acdhch/noske:5.63.9-2.223.6-open
       - name: build noske:3.116.13-2.167.8-open-ubuntu image
         run: |
           docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/noske:3.116.13-2.167.8-open-ubuntu noske

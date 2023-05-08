@@ -7,7 +7,7 @@ LABEL maintainer Omar.Siam@oeaw.ac.at
 # cronolog is a customized version that is able to gzip older log files.
 COPY rpms/cronolog-1.7.2-105.7.x86_64.rpm \
      rpms/fakeprovide-httpd-20201030141639-1.el7.noarch.rpm \
-     rpms/python3-openpyxl-3.0.10-1.noarch.rpm \
+     rpms/python3-openpyxl-3.1.2-1.noarch.rpm \
      rpms/python3-prctl-1.8.1-1.x86_64.rpm \
      run_lighttpd.sh import_logs.py \
      lighttpd.conf add_auth.sh \
@@ -17,7 +17,7 @@ COPY rpms/cronolog-1.7.2-105.7.x86_64.rpm \
 # This was an ubuntu based image which has it's python packages in dist-packages
 # The customized directory is mounted there hence it hast to be replicated here
 RUN cd /rpms && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.223.6-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito-open-5.63.9-1.el7.src.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.142-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.223.6-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.223.6-1.el7.x86_64.rpm && \
