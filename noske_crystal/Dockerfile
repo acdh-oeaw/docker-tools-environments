@@ -17,18 +17,18 @@ COPY rpms/cronolog-1.7.2-105.7.x86_64.rpm \
 # This was an ubuntu based image which has it's python packages in dist-packages
 # The customized directory is mounted there hence it hast to be replicated here
 RUN cd /rpms && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito-open-5.58.1-1.el7.noarch.rpm && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.214.1-1.el7.x86_64.rpm && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.214.1-1.el7.x86_64.rpm && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.214.1-1.el7.x86_64.rpm && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-susanne-2.214.1-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.223.6-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.142-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.223.6-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.223.6-1.el7.x86_64.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-susanne-2.223.6-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/crystal-open/crystal-open-2.130.1-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/gdex/gdex-4.12-1.el7.noarch.rpm && \
     cd / && \
     yum install -y epel-release && \
     yum update -y && \
     yum install -y lighttpd lighttpd-fastcgi python36-lxml && \
-    mv /rpms/manatee-open-susanne-2.214.1-1.el7.noarch.rpm /root && \
+    mv /rpms/manatee-open-susanne-*.noarch.rpm /root && \
     yum install -y ./rpms/* && \
     mv /rpms/run_lighttpd.sh /rpms/import_logs.py / && \
     mv /rpms/lighttpd.conf /rpms/add_auth.sh /etc/lighttpd/ && \
