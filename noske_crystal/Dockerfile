@@ -11,7 +11,7 @@ COPY rpms/cronolog-1.7.2-105.7.x86_64.rpm \
      rpms/python3-prctl-1.8.1-1.x86_64.rpm \
      run_lighttpd.sh import_logs.py \
      lighttpd.conf add_auth.sh \
-     run.cgi test-run.cgi \
+     run.cgi test-run.cgi exportlib-py-pyxl-3-1.patch \
      /rpms/
 # for UI-customization: /usr/lib/python3.6/dist-packages/bonito will be mounted. Save it away.
 # This was an ubuntu based image which has it's python packages in dist-packages
@@ -27,7 +27,7 @@ RUN cd /rpms && \
     cd / && \
     yum install -y epel-release && \
     yum update -y && \
-    yum install -y lighttpd lighttpd-fastcgi python36-lxml && \
+    yum install -y lighttpd lighttpd-fastcgi python36-lxml patch && \
     mv /rpms/manatee-open-susanne-*.noarch.rpm /root && \
     yum install -y ./rpms/* && \
     mv /rpms/run_lighttpd.sh /rpms/import_logs.py / && \
@@ -35,6 +35,9 @@ RUN cd /rpms && \
     mv /rpms/run.cgi /var/www/bonito/ && \
     mkdir -p /var/www/test/bonito/ && \
     mv /rpms/test-run.cgi /var/www/test/bonito/run.cgi && \
+	pushd /usr/lib/python3.6/site-packages/bonito/ && \
+	patch -p0 < /rpms/exportlib-py-pyxl-3-1.patch && \
+	popd && \
     rm -rf /rpms/ && \
     localedef -c -i en_IE -f UTF-8 en_IE.UTF-8; echo returned $? && \
     mkdir -p /var/www/test/bonito/ && \
