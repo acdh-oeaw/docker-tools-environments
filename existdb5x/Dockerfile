@@ -1,4 +1,4 @@
-FROM acdhch/existdb:5.3.0-java11-ShenGC
+FROM acdhch/existdb:5.3.1-java11-ShenGC
 LABEL maintainer="Omar Siam <omar.siam@oeaw.ac.at>"
 
 COPY busybox /bin/sh
