@@ -6,7 +6,8 @@ RUN yum -y update && \
   yum -y install epel-release && \
   yum -y install -y java-1.8.0-openjdk-headless \
                      supervisor elinks curl vim-enhanced nano locales && \
-  yum clean all
+  yum clean all &&\
+  rm -rf /var/cache/yum/
 
 # set up utf-8 locale (defaults to POSIX)
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8

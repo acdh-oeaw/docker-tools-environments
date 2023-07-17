@@ -9,7 +9,8 @@ RUN yum install -y ant maven git patch && \
     cd /opt/eXgit && git checkout 3a331ac4228d2d47bb39126563a95bd055f04cc8 && \
     mvn clean package && cp target/exgit-full.jar $EXIST_HOME/lib/user && \
     yum -y remove ant maven && yum -y autoremove && \
-    rm -rf ~/.m2
+    yum clean all &&\
+    rm -rf ~/.m2 /var/cache/yum/
 ENV EXIST_HOME /opt/exist
 ENV PATH $PATH:/opt/exist/bin
 

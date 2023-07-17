@@ -6,12 +6,13 @@ COPY build-config.diff 0001-Replace-ivy-2.3.0-with-ivy-2.5.0.patch /opt/
 COPY autodeploy/* /opt/exist/autodeploy/
 RUN yum -y install maven ant && \
     cd /opt/exist && \
-    git fetch --depth 1 origin eXist-2.2:eXist-2.2 &&\
+    git fetch --depth 1 origin eXist-2.2 &&\
     git checkout eXist-2.2 && \
     git apply ../0001-Replace-ivy-2.3.0-with-ivy-2.5.0.patch &&\
     patch -p1 < ../build-config.diff && ./build.sh && \
     yum -y remove ant maven && yum -y autoremove && \
-    rm -rf ~/.m2 ~/.ivy2
+    yum clean all &&\
+    rm -rf ~/.m2 ~/.ivy2 /var/cache/yum/
 # customize config
 RUN cd /opt/exist && \
     mkdir -p /var/log/exist &&\
