@@ -9,10 +9,10 @@ RUN apt update && apt full-upgrade -y && \
   apt install -y supervisor apache2 apache2-utils libapache2-mpm-itk \
                  links curl vim locales \
                  libapache2-mod-php php-cli php-pear php-pgsql php-zip \
-                 php-mysql php-gd php-recode php-readline php-json \
+                 php-mysql php-gd php-readline php-json \
                  php-curl php-gmp php-ldap php-odbc php-sqlite3 \
                  php-xmlrpc php-intl php-xsl php-mbstring php-apcu \
-                 php-zip php-yaml php-imagick mysql-client w3c-sgml-lib \
+                 php-zip php-yaml php-imagick default-mysql-client w3c-sgml-lib \
                  composer && \
   apt clean && \
   rm -f /etc/localtime && \
