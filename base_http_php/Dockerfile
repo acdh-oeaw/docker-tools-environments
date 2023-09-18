@@ -1,7 +1,7 @@
 # Image for serving HTTP/PHP environment:
 # Apache is running using the ITK module so
 # --cap-add=SYS_NICE --cap-add=DAC_READ_SEARCH docker privileges are required
-FROM ubuntu:18.04
+FROM debian:bullseye
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,7 +31,7 @@ ENV LANGUAGE en_US:en
 RUN locale-gen en_US.UTF-8 && \
   mkdir -p /var/www/exec /var/www/config &&\
   chown www-data:www-data /var/www/exec /var/www/config &&\
-  sed -i -e 's/upload_max_filesize.*/upload_max_filesize = 64M/' -e 's/post_max_size.*/post_max_size = 64M/' /etc/php/7.2/apache2/php.ini
+  sed -i -e 's/upload_max_filesize.*/upload_max_filesize = 64M/' -e 's/post_max_size.*/post_max_size = 64M/' /etc/php/7.4/apache2/php.ini
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
