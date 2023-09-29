@@ -1,22 +1,23 @@
 # Image for serving HTTP/PHP environment using the ubuntu:latest docker hub image
-FROM ubuntu:focal
+FROM debian:bullseye
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && \
+RUN apt-get update && \
     apt full-upgrade -y && \
-    apt install -y locales gnupg && \
-    echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu/ focal main" >> /etc/apt/sources.list && \
-    echo "deb http://ppa.launchpad.net/ondrej/apache2/ubuntu/ focal main" >> /etc/apt/sources.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+    apt-get -y install lsb-release ca-certificates curl locales && \
+    curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg && \
+    sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' && \
+    apt-get update && \
+    locale-gen en_US.UTF-8 && \
+    locale-gen de_DE.UTF-8
+
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en
-RUN locale-gen en_US.UTF-8 && \
-    locale-gen de_DE.UTF-8 && \
-    apt update && \
-    apt install -y supervisor apache2 curl vim libapache2-mod-php8.0 \
-                   php8.0-cli \
-                   php8.0-pgsql php8.0-mysql php8.0-sqlite3 php8.0-pdo php8.0-pdo-pgsql php8.0-pdo-mysql php8.0-pdo-sqlite \
-                   php8.0-zip php8.0-iconv php8.0-readline php8.0-curl php8.0-intl php8.0-mbstring php8.0-yaml php8.0-bcmath php8.0-dom php8.0-opcache php8.0-gd php8.0-xml php8.0-xsl php8.0-imagick && \
+RUN apt update && \
+    apt install -y supervisor apache2 curl vim libapache2-mod-php8.2 \
+                   php8.2-cli \
+                   php8.2-pgsql php8.2-mysql php8.2-sqlite3 php8.2-pdo php8.2-pdo-pgsql php8.2-pdo-mysql php8.2-pdo-sqlite \
+                   php8.2-zip php8.2-iconv php8.2-readline php8.2-curl php8.2-intl php8.2-mbstring php8.2-yaml php8.2-bcmath php8.2-dom php8.2-opcache php8.2-gd php8.2-xml php8.2-xsl php8.2-imagick && \
     apt clean && \
     rm -f /etc/localtime && \
     ln -s /usr/share/zoneinfo/Europe/Vienna /etc/localtime && \

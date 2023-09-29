@@ -13,10 +13,10 @@ jobs:
           password: ${{ secrets.DOCKERHUBTOKEN }}
       - name: build php image
         run: |
-          docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/php:8 http_php8
+          docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/php:8.2 http_php8
       - name: push to docker hub php
         run: |
-          docker push acdhch/php:8
+          docker push acdhch/php:8.2
       - name: build noske:5.63.9-2.223.6-open image
         run: |
           docker build --rm --label "buildUrl=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -t acdhch/noske:5.63.9-2.223.6-open noske_crystal
