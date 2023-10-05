@@ -3,7 +3,7 @@
 FROM azul/zulu-openjdk:11.0.17
 LABEL maintainer Omar Siam <omar.siam@oeaw.ac.at>
 
-RUN sed -i'' -e 's/11.0.17/11.0.19/g' /etc/apt/preferences && \
+RUN sed -i'' -e 's/11.0.17/11.0.20.1/g' /etc/apt/preferences && \
     apt update && apt dist-upgrade -y && apt install -y git
 WORKDIR /opt/basex/bin
 #@INJECT_USER@
