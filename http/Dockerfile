@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM debian:bullseye
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
