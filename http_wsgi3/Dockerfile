@@ -5,7 +5,7 @@ MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 # install software
 RUN apt-get update && \
   apt-get install -y libapache2-mod-wsgi-py3 python3-pip python3-virtualenv && \
-  apt-get install -y default-mysql-client python3-dev git && \
+  apt-get install -y default-mysql-client default-libmysqlclient-dev python3-dev git && \
   apt-get clean
 
 # expose
