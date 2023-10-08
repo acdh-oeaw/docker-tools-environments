@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:stretch
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 # install software
