@@ -4,7 +4,7 @@ MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 # install software
 ENV DEBIAN_FRONTEND=noninteractive
 RUN sed -i -e 's~http://archive~http://at.archive~' /etc/apt/sources.list && \
-  apt-get update && apt-get dist-upgrade -y && \
+  apt-get update -y && \
   apt-get install -y supervisor apache2 apache2-utils libapache2-mpm-itk links curl vim locales && \
   a2enmod rewrite && \
   a2enmod headers && \
