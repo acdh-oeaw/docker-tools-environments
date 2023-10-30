@@ -17,7 +17,7 @@ COPY rpms/cronolog-1.7.2-105.7.x86_64.rpm \
 # This was an ubuntu based image which has it's python packages in dist-packages
 # The customized directory is mounted there hence it hast to be replicated here
 RUN cd /rpms && \
-    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito-open-5.63.9-1.el7.noarch.rpm && \
+    curl -LO https://corpora.fi.muni.cz/noske/current/centos7/bonito-open/bonito-open-5.66.3-1.el7.noarch.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-2.223.6-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-python3-2.223.6-1.el7.x86_64.rpm && \
     curl -LO https://corpora.fi.muni.cz/noske/current/centos7/manatee-open/manatee-open-static-2.223.6-1.el7.x86_64.rpm && \
@@ -50,7 +50,9 @@ RUN cd /rpms && \
     yum install -y which && \
     yum install -y less vim && \
     yum clean all
-## install some missing stuff: mandatory: which / comfort: less vi 
+## install some missing stuff: mandatory: which / comfort: less vi
+
+COPY openapi /var/www/openapi
 
 ENV MANATEE_REGISTRY=/var/lib/manatee/registry \
     HTTPD_ERROR_LOGFILE=/dev/fd/3 \
