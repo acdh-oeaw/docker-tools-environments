@@ -34,7 +34,7 @@ externalDocs:
   description: former API documentation
   url: https://www.sketchengine.eu/documentation/api-documentation/
 servers:
-<!--#if expr="$HTTP_X_FORWARDED_PROTO" -->- url: <!--#echo var="HTTP_X_FORWARDED_PROTO" -->://<!--#echo var="HTTP_X_FORWARDED_HOST" -->
+<!--#if expr="$HTTP_X_FORWARDED_PROTO" -->- url: <!--#echo var="HTTP_X_FORWARDED_PROTO" -->://<!--#echo var="HTTP_HOST" -->
 <!--#else -->- url: http://<!--#echo var="HTTP_HOST" --><!--#endif -->
 tags:
 - name: Corpus Search
