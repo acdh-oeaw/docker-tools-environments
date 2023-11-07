@@ -18,11 +18,11 @@ The list of the corpora that should be compiled on startup is supplied using `CO
 You usually mount them into the container like
 
 ```powershell
-docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals -v Q:\path\to\your\configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus  acdhch/noske:5.58.1-2.214.1-open
+docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals -v Q:\path\to\your\configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus  acdhch/noske:5.66.3-2.223.6-open
 ```
 or on Linux/MacOS
 ```bash
-docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals -v $(pwd)/configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus acdhch/noske:5.58.1-2.214.1-open
+docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals -v $(pwd)/configuration-files:/var/lib/manatee/registry -p 8080:8080 -e CORPLIST=my_corpus acdhch/noske:5.66.3-2.223.6-open
 ```
 
 On Kubernetes you can use a Persistent Volume Claim for the verticals and a config map for the configuration/registry for example.
@@ -73,7 +73,7 @@ docker run --rm -it -v Q:\path\to\your\verticals:/var/lib/manatee/data/verticals
                                  -v Q:\path\to\your\users-options:/var/lib/bonito/options `                                
                                  -p 8080:8080 -e CORPLIST=my_corpus `
                                  -e HTPASSWD_FILE=/var/lib/bonito/htpasswd -e PASSWD_REALM=my_noske `
-                                 acdhch/noske:5.57.6-2.208-open
+                                 acdhch/noske:5.66.3-2.223.6-open
 ```
 or on Linux/MacOS
 ```bash
@@ -84,7 +84,7 @@ docker run --rm -it -v $(pwd)/verticals:/var/lib/manatee/data/verticals \
                                  -v $(pwd)/users-options:/var/lib/bonito/options \
                                  -p 8080:8080 -e CORPLIST=my_corpus \
                                  -e HTPASSWD_FILE=/var/lib/bonito/htpasswd -e PASSWD_REALM=my_noske \
-                                  acdhch/noske:5.58.1-2.214.1-open
+                                  acdhch/noske:5.66.3-2.223.6-open
 ```
 
 CORS
