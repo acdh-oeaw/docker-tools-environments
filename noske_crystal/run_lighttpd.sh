@@ -6,8 +6,7 @@ if [ ! "$(ls -A /var/www/crystal)" ];
 then cp -R /var/www/crystal.init/* /var/www/crystal
      sed -i "s~URL_BONITO: \"http://localhost/~URL_SKE_LI: \"about:blank\", URL_CA: \"about:blank\", URL_BONITO: \"${BROWSER_URL_BONITO:-}/~g" /var/www/crystal/config.js
 fi
-## corplist can be a comma-separated list!
-for corp in $(echo $CORPLIST | perl -pe 's/,/ /g'); do
+for corp in $CORPLIST; do
 path=$(corpinfo -p $corp)
 if [ ! -d $path ] || [ ! "$(ls -A $path)" ]
   then mkdir -p $path; compilecorp $corp
