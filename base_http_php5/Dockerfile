@@ -2,7 +2,7 @@
 #
 # This configuration is DEPRECATED now and all services should be adapted to
 # work with php7!
-FROM ubuntu:focal
+FROM debian:jessie
 MAINTAINER Mateusz Żółtak <mateusz.zoltak@oeaw.ac.at>
 
 ENV LANG en_US.UTF-8
