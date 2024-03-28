@@ -1,3 +1,6 @@
 /sketch-engine
 /base_sketch-engine
 /noske_crystal/openapi/node_modules
+*.bak
+foo
+
